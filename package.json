@@ -1,0 +1,19 @@
+{
+  "name": "careercampus",
+  "private": true,
+  "description": "Gamified career roadmaps — React 18 + TypeScript, PHP 8.3 + Slim 4, PostgreSQL 16",
+  "scripts": {
+    "setup": "docker compose build && docker compose run --rm php composer install",
+    "up": "docker compose up -d",
+    "down": "docker compose down",
+    "build": "docker compose build",
+    "migrate": "docker compose exec -T php php bin/migrate.php",
+    "seed": "docker compose exec -T php php bin/seed.php",
+    "test": "npm run test:backend && npm run test:frontend",
+    "test:backend": "docker compose exec -T php vendor/bin/phpunit",
+    "test:frontend": "cd frontend && npm test -- --run",
+    "lint": "npm run lint:backend && npm run lint:frontend",
+    "lint:backend": "docker compose run --rm php vendor/bin/phpstan analyse && docker compose run --rm php vendor/bin/php-cs-fixer fix --dry-run --diff",
+    "lint:frontend": "cd frontend && npm run lint"
+  }
+}

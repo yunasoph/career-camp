@@ -10,8 +10,8 @@ playwright-report/
 test-results/
 pgdata/
 *.log
+.php-cs-fixer.cache
 .idea/
 .vscode/
 .DS_Store
-Thumbs.dbspec.md
-phases.md
+Thumbs.db

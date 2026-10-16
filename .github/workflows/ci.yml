@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: careercampus_test
+          POSTGRES_USER: careercampus
+          POSTGRES_PASSWORD: careercampus
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U careercampus"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      APP_ENV: test
+      DB_HOST: 127.0.0.1
+      DB_PORT: "5432"
+      DB_NAME: careercampus_test
+      DB_USER: careercampus
+      DB_PASSWORD: careercampus
+      JWT_SECRET: ci-test-secret-not-for-production
+      FRONTEND_ORIGIN: http://localhost:5173
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: pdo_pgsql, bcmath
+          coverage: none
+      - name: Install dependencies
+        run: composer install --no-interaction
+        working-directory: backend
+      - name: PHPStan (level 6)
+        run: vendor/bin/phpstan analyse
+        working-directory: backend
+      - name: PHP-CS-Fixer
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff
+        working-directory: backend
+      - name: PHPUnit
+        run: vendor/bin/phpunit
+        working-directory: backend
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+        working-directory: frontend
+      - name: Lint
+        run: npm run lint
+        working-directory: frontend
+      - name: Test (Vitest)
+        run: npm test -- --run
+        working-directory: frontend
+      - name: Build
+        run: npm run build
+        working-directory: frontend
