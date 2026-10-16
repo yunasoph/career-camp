@@ -24,6 +24,10 @@ use Slim\Psr7\Factory\ResponseFactory;
  */
 final class AppFactory
 {
+    /**
+     * @param \Psr\Container\ContainerInterface $c
+     * @return \Slim\App<\Psr\Container\ContainerInterface>
+     */
     public static function create(ContainerInterface $c): App
     {
         $app = new App(new ResponseFactory(), $c);
