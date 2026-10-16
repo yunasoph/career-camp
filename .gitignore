@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+node_modules/
+vendor/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+pgdata/
+*.log
+.idea/
+.vscode/
+.DS_Store
+Thumbs.dbspec.md
+phases.md
