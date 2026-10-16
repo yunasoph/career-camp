@@ -37,3 +37,32 @@ Running log of decisions made where `spec.md` was ambiguous or silent (spec §15
 - **Migrations runner records applied files in `schema_migrations`** and wraps
   each file in one transaction (Postgres DDL is transactional), making re-runs
   no-ops and failed migrations roll back cleanly.
+
+## Phase 1 — Authentication & Accounts
+
+- **PHPUnit now uses a fresh Postgres test database** (`careercampus_test`,
+  dropped + recreated + migrated per run in `tests/bootstrap.php`), replacing
+  the Phase 0 in-memory SQLite stopgap per spec §11. The CI workflow already
+  provisions a `careercampus_test` Postgres service, so dev and CI match.
+- **Refresh cookie (`cc_refresh`) sets the `Secure` flag only when
+  `APP_ENV=production`.** Dev runs on http://localhost where browsers refuse
+  Secure cookies; the spec's cookie contract (httpOnly, Secure, SameSite=Lax,
+  30 d) is fully in force in production.
+- **Rate limiting is file-based with `flock`** (spec §7: "Postgres- or
+  file-based is fine"). Sliding 60 s window, key `group:client-ip`; the
+  storage dir is env-overridable (`RATE_LIMIT_DIR`) so tests run in a temp dir.
+- **`GET /api/v1/admin/ping`** is a minimal admin-only probe route registered in
+  Phase 1 so the Admin middleware (learner → 403) is testable; full admin CRUD
+  arrives in Phase 5.
+- **`POST /auth/register` sets the refresh cookie too** (spec only spells it
+  out for login) so the "register → reload → still signed in" flow works.
+- **Error codes:** duplicate email → `409 email_taken`; bad credentials →
+  `401 invalid_credentials`; missing/expired/revoked refresh token →
+  `401 invalid_refresh`; reuse of an already-rotated token revokes **all** of
+  the user's refresh tokens (spec §7).
+- **Client IP** comes from the first `X-Forwarded-For` entry, falling back to
+  `REMOTE_ADDR` — nginx is always in front (dev proxy chain and production).
+- **`LevelCalculator` (pure, `src/Domain/`) introduced in Phase 1** because
+  `GET /me` must return `level` and `xp_to_next`: `level = floor(sqrt(xp/50)) +
+  1`, `xp_to_next = 50·level² − xp`, title bands per §5.3. Phase 3 reuses the
+  same class for level-up detection.

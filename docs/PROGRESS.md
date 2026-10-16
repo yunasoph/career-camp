@@ -36,3 +36,20 @@ Status of each phase, verified against the exit gates in `phases.md`.
 - Auth comes next: JWT with `firebase/php-jwt` v7 (HS256 API unchanged), password hashing via `password_hash()`, `respect/validation` for request validation.
 - PHPUnit smoke tests use an in-memory SQLite PDO; add Postgres-backed tests (fresh test DB per run) per spec §11 in later phases.
 - Tag: `phase-0-done`. PR opened per `git.md` workflow — stop for review.
+
+## Phase 1 — Authentication & Accounts
+**Status: PLANNED** (plan: `docs/phases/PHASE_1_PLAN.md`, branch `phase-1-auth`)
+
+### Build checklist
+- [ ] Argon2id hashing; JWT access (15 min) + rotating httpOnly refresh cookie; hashed token storage; reuse detection revokes all tokens
+- [ ] Endpoints: `register`, `login`, `refresh`, `logout`, `GET/PATCH /me` (with level, `xp_to_next`, streak fields)
+- [ ] Middleware: Auth, Admin, RateLimit (auth endpoints 10/min/IP), JSON body, validation → error envelope
+- [ ] Frontend: typed API client with silent refresh + one retry on 401; in-memory token store; session restore on boot; `/login`, `/register` pages (React Hook Form + Zod, field errors from API); protected/guest/admin route guards
+- [ ] Nav shows level chip and streak chip when signed in (values from `/me`)
+- [ ] Profile settings page (display name, avatar URL, timezone)
+
+### Exit gate results
+(pending)
+
+### Handoff
+(pending)
