@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/* §9A.2 Colour tokens — "Daylight" (default) and "Night campus"      */
+/* ------------------------------------------------------------------ */
+:root {
+    --paper: #f3e9d8;
+    --paper-2: #eadfcb;
+    --card: #fffaf0;
+    --ink: #2a1f16;
+    --ink-soft: #6b5b4b;
+    --marigold: #ffc63d;
+    --ember: #f2683c;
+    --moss: #4f8a4b;
+    --lagoon: #2e9fa6;
+    --berry: #b8467a;
+    --fog: #cfc6b8;
+    color-scheme: light;
+}
+
+.dark {
+    --paper: #17120d;
+    --paper-2: #211a13;
+    --card: #2a2118;
+    --ink: #f6ebd9;
+    --ink-soft: #b8a892;
+    --marigold: #ffd056;
+    --ember: #ff7f55;
+    --moss: #6fae69;
+    --lagoon: #4fc0c7;
+    --berry: #d86a9c;
+    --fog: #3a3025;
+    color-scheme: dark;
+}
+
+@layer base {
+    html {
+        font-family: 'Figtree Variable', system-ui, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+        background-color: var(--paper);
+        color: var(--ink);
+        /* Faint graph-paper dot grid: 1px dots every 24px at ~6% ink. */
+        background-image: radial-gradient(
+            color-mix(in srgb, var(--ink) 6%, transparent) 1px,
+            transparent 1px
+        );
+        background-size: 24px 24px;
+    }
+
+    /* ~4% SVG-noise paper grain over everything (decorative, non-interactive). */
+    body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+}
+
+@layer components {
+    /* §9A.4 — "sticker" elevation: interactive/game elements. */
+    .sticker {
+        border: 2px solid var(--ink);
+        box-shadow: 0 4px 0 var(--ink);
+        transition:
+            transform 120ms ease,
+            box-shadow 120ms ease;
+    }
+
+    .sticker:active {
+        transform: translateY(3px);
+        box-shadow: 0 1px 0 var(--ink);
+    }
+
+    /* §9A.4 — "soft" elevation: containers. */
+    .soft-card {
+        border: 1.5px solid color-mix(in srgb, var(--ink) 12%, transparent);
+        box-shadow: 0 10px 30px -12px rgb(42 31 22 / 0.25);
+    }
+}

@@ -1,0 +1,69 @@
+import { useState } from 'react';
+import { CAP, FLAME, FLAG, LANTERN, LOCK, MOON, SHIELD, STAR, SUN } from '@/art/sprites/icons';
+import { BISCUIT_IDLE_A, BISCUIT_IDLE_B } from '@/art/sprites/biscuit';
+import { PixelSprite, type SpriteData } from '@/art/PixelSprite';
+import { Button } from '@/components/ui/Button';
+import { useThemeStore } from '@/store/themeStore';
+
+const SPRITES: { name: string; sprite: SpriteData }[] = [
+    { name: 'flame', sprite: FLAME },
+    { name: 'shield', sprite: SHIELD },
+    { name: 'lock', sprite: LOCK },
+    { name: 'flag', sprite: FLAG },
+    { name: 'lantern', sprite: LANTERN },
+    { name: 'star', sprite: STAR },
+    { name: 'cap', sprite: CAP },
+    { name: 'sun', sprite: SUN },
+    { name: 'moon', sprite: MOON },
+    { name: 'biscuit idle 1', sprite: BISCUIT_IDLE_A },
+    { name: 'biscuit idle 2', sprite: BISCUIT_IDLE_B },
+];
+
+/** Dev-only (/_art): every sprite, both themes, multiple scales. */
+export function ArtGalleryPage(): JSX.Element {
+    const theme = useThemeStore((s) => s.theme);
+    const toggleTheme = useThemeStore((s) => s.toggle);
+    const [scale, setScale] = useState(4);
+
+    return (
+        <section className="py-12">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-ink-soft">Dev only</p>
+            <h1 className="font-display mt-2 text-5xl font-black tracking-[-0.03em]">Pixel Art Gallery</h1>
+            <p className="mt-3 max-w-xl text-ink-soft">
+                Every sprite in both themes. Palettes reference CSS variables, so sprites retheme
+                automatically — flip the theme and compare.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+                <Button variant="ghost" onClick={toggleTheme}>
+                    {theme === 'light' ? 'Night campus' : 'Daylight'}
+                </Button>
+                <div className="flex items-center gap-1">
+                    {[2, 3, 4, 6].map((s) => (
+                        <Button
+                            key={s}
+                            variant={scale === s ? 'primary' : 'ghost'}
+                            onClick={() => setScale(s)}
+                        >
+                            {s}&times;
+                        </Button>
+                    ))}
+                </div>
+            </div>
+
+            <div className="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-4">
+                {SPRITES.map(({ name, sprite }) => (
+                    <figure
+                        key={name}
+                        className="soft-card flex flex-col items-center gap-4 rounded-card bg-card p-6"
+                    >
+                        <div className="flex h-40 items-center justify-center">
+                            <PixelSprite sprite={sprite} scale={scale} />
+                        </div>
+                        <figcaption className="font-pixel text-sm text-ink-soft">{name}</figcaption>
+                    </figure>
+                ))}
+            </div>
+        </section>
+    );
+}
