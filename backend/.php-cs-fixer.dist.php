@@ -10,6 +10,7 @@ return (new PhpCsFixer\Config())
     ->setRules([
         '@PSR12' => true,
         'declare_strict_types' => true,
+        'line_ending' => "\n",
         'array_syntax' => ['syntax' => 'short'],
         'no_unused_imports' => true,
         'ordered_imports' => ['imports_order' => ['class', 'function', 'const']],

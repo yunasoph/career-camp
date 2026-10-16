@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace CareerCampus\Config;
 
-use CareerCampus\Http\Middleware\CorsMiddleware;
-use CareerCampus\Http\Middleware\ErrorHandlerMiddleware;
-use CareerCampus\Http\Middleware\JsonBodyMiddleware;
 use CareerCampus\Support\Clock;
 use CareerCampus\Support\SystemClock;
 use DI\ContainerBuilder;
@@ -17,7 +14,6 @@ use PDO;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use Slim\App;
-use Slim\Psr7\Factory\ResponseFactory;
 
 final class Container
 {
@@ -51,18 +47,7 @@ final class Container
                 );
             },
             Clock::class => SystemClock::class,
-            App::class => static function (ContainerInterface $c): App {
-                // slim/slim 4.15+: App takes a PSR-17 ResponseFactory first, then the container.
-                $app = new App(new ResponseFactory(), $c);
-                // Order matters: Cors is outermost (handles preflight before
-                // anything else), ErrorHandler next (uniform envelope), then body parsing.
-                $app->add($c->get(CorsMiddleware::class));
-                $app->add($c->get(ErrorHandlerMiddleware::class));
-                $app->add($c->get(JsonBodyMiddleware::class));
-                Routes::register($app, $c);
-
-                return $app;
-            },
+            App::class => static fn (ContainerInterface $c): App => AppFactory::create($c),
         ]);
 
         return $builder->build();
