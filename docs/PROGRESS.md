@@ -86,7 +86,7 @@ All four are documented in `docs/DECISIONS.md`.
 - [x] Migration `002_differentiators.sql` (full §17.7 delta: theme, landmark, est_minutes, handle/is_public, 5 new tables)
 - [x] Idempotent seeder + seed JSON: 12 badges, Frontend Developer (12 nodes, 49 tasks, 7 quizzes) + Data Analyst (10 nodes, 30 tasks, 3 quizzes), dev users, production guard
 - [ ] `GET /roadmaps`, `GET /roadmaps/{slug}` (≤5 queries), `GET /nodes/{id}` (quiz answers stripped)
-- [ ] `NodeStateResolver` (O(nodes+edges), memoized DFS, cycle-safe) + unit tests
+- [x] `NodeStateResolver` (O(nodes+edges), memoized DFS, cycle-safe) + unit tests (8 tests: 4 states, chains, diamond, boundaries, cycles, 300-node stress)
 - [ ] Landing: `CampusScene` hero (procedural, 3 parallax layers, fade mask, dusk variant), path picker, how-it-works stickers, featured paths, passport teaser, horizon footer
 - [ ] Catalog: search + difficulty filter, theme-tinted landmark cards, pixel-star difficulty
 - [ ] `RoadmapPage`: React Flow Trail Map (dotted trail edges, landmarks, fog/lantern/ring/flag states), node drawer / mobile bottom sheet, a11y
