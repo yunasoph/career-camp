@@ -61,5 +61,5 @@ Run from the repo root (Makefile targets exist too for CI/Linux — `make <targe
 
 ## Status
 
-Phase 0 (foundation & design system) in progress — see
-[`docs/PROGRESS.md`](./docs/PROGRESS.md).
+Phase 0 (foundation & design system) and Phase 1 (authentication & accounts)
+are complete — see [`docs/PROGRESS.md`](./docs/PROGRESS.md).

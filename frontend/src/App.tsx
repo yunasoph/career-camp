@@ -1,10 +1,15 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { NavBar } from '@/components/ui/NavBar';
+import { restoreSession } from '@/lib/session';
 import { ArtGalleryPage } from '@/pages/ArtGalleryPage';
 import { ComingSoonPage } from '@/pages/ComingSoonPage';
 import { HomePage } from '@/pages/HomePage';
+import { LoginPage } from '@/pages/LoginPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { ProfilePage } from '@/pages/ProfilePage';
+import { RegisterPage } from '@/pages/RegisterPage';
+import { GuestOnly, RequireAuth } from '@/routes/guards';
 import { applyTheme, useThemeStore } from '@/store/themeStore';
 
 export default function App(): JSX.Element {
@@ -13,6 +18,12 @@ export default function App(): JSX.Element {
     useEffect(() => {
         applyTheme(theme);
     }, [theme]);
+
+    // Boot-time session restore: the access token is memory-only, so a
+    // reload must re-derive the session from the httpOnly refresh cookie.
+    useEffect(() => {
+        restoreSession();
+    }, []);
 
     return (
         <div className="relative z-10 flex min-h-screen flex-col">
@@ -33,6 +44,30 @@ export default function App(): JSX.Element {
                     <Route
                         path="/leaderboard"
                         element={<ComingSoonPage title="Leaderboard" note="The podium opens in Phase 4." />}
+                    />
+                    <Route
+                        path="/login"
+                        element={
+                            <GuestOnly>
+                                <LoginPage />
+                            </GuestOnly>
+                        }
+                    />
+                    <Route
+                        path="/register"
+                        element={
+                            <GuestOnly>
+                                <RegisterPage />
+                            </GuestOnly>
+                        }
+                    />
+                    <Route
+                        path="/profile"
+                        element={
+                            <RequireAuth>
+                                <ProfilePage />
+                            </RequireAuth>
+                        }
                     />
                     {import.meta.env.DEV && <Route path="/_art" element={<ArtGalleryPage />} />}
                     <Route path="*" element={<NotFoundPage />} />

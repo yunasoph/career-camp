@@ -38,15 +38,15 @@ Status of each phase, verified against the exit gates in `phases.md`.
 - Tag: `phase-0-done`. PR opened per `git.md` workflow — stop for review.
 
 ## Phase 1 — Authentication & Accounts
-**Status: IN PROGRESS** — backend complete (PHPUnit `OK (33 tests, 127 assertions)`, PHPStan L6 clean); frontend pending (plan: `docs/phases/PHASE_1_PLAN.md`, branch `phase-1-auth`)
+**Status: COMPLETE** (exit gate passed 2026-10-17; backend + frontend)
 
 ### Build checklist
 - [x] Argon2id hashing; JWT access (15 min) + rotating httpOnly refresh cookie; hashed token storage; reuse detection revokes all tokens
 - [x] Endpoints: `register`, `login`, `refresh`, `logout`, `GET/PATCH /me` (with level, `xp_to_next`, streak fields)
 - [x] Middleware: Auth, Admin, RateLimit (auth endpoints 10/min/IP), JSON body, validation → error envelope
-- [ ] Frontend: typed API client with silent refresh + one retry on 401; in-memory token store; session restore on boot; `/login`, `/register` pages (React Hook Form + Zod, field errors from API); protected/guest/admin route guards
-- [ ] Nav shows level chip and streak chip when signed in (values from `/me`)
-- [ ] Profile settings page (display name, avatar URL, timezone)
+- [x] Frontend: typed API client with silent refresh + one retry on 401; in-memory token store; session restore on boot; `/login`, `/register` pages (React Hook Form + Zod, field errors from API); protected/guest/admin route guards
+- [x] Nav shows level chip and streak chip when signed in (values from `/me`)
+- [x] Profile settings page (display name, avatar URL, timezone)
 
 ### Backend test coverage (29 new tests + 4 Phase 0)
 - `RegisterTest` — session + cookie on 201, Argon2id hash persisted, `409 email_taken`, `422` field details, returned token works on `/me`
@@ -56,8 +56,25 @@ Status of each phase, verified against the exit gates in `phases.md`.
 - `AdminGuardTest` — learner → `403 forbidden`, admin → 200, unauthenticated → 401
 - `RateLimitTest` — 11th auth request → `429 rate_limited`, per-IP budgets (X-Forwarded-For), non-auth routes unlimited
 
-### Exit gate results
-(pending — frontend + manual gate)
+### Frontend test coverage (19 new tests + 11 Phase 0)
+- `client.test.ts` — Bearer + `credentials: include` + JSON content type; 401 → one silent refresh → retry with fresh token; concurrent-refresh dedupe; failed refresh → session cleared + redirect `/login` (suppressed on auth pages); 422 field details surface on `ApiError`
+- `validation.test.ts` — register / login / profile Zod schemas (per-field messages, 60-char name, URL avatar, IANA timezone)
+- `authStore.test.ts` — setSession / setUser / clear; nothing persisted (token is memory-only, spec §9.3)
+
+### Exit gate results (2026-10-17)
+- [x] PHPUnit: `OK (33 tests, 127 assertions)` — register, login, bad password → 401, refresh rotation, reuse detection (revokes all), learner on admin route → 403.
+- [x] Vitest: `30 passed (30)` — form validation schemas; client refresh-retry (incl. dedupe + redirect on failure).
+- [x] Manual: live-stack smoke run (curl through nginx :8080 and the Vite proxy :5173): register → `201` + `Set-Cookie: cc_refresh=…; Path=/api/v1; HttpOnly; SameSite=Lax; Max-Age=2592000`; `GET /me` with the Bearer token → 200; `POST /auth/refresh` with the cookie (exactly what a page reload triggers) → 200 + **rotated** cookie ⇒ register → reload → still signed in. Cookies verified through the Vite dev proxy (the plan's top risk). Access token is in no web storage: `authStore` has no persist middleware (asserted in `authStore.test.ts`); only `careercampus-theme` lives in localStorage.
+- [x] `npm run lint` / `npm run test` from the root: green (see commit).
+
+### Issues found & fixed while building
+- Slim 4.15 route groups: `group($pattern, $callback)` requires a callback and returns `RouteGroupInterface` (no route methods); static closures crash `CallableResolver::bindToContainer()` (null + PHP warning) → group callbacks are public static method refs (`[Routes::class, 'method']`).
+- php-di 8: `Clock::class => SystemClock::class` is a literal string (`ValueDefinition`), not an instantiation — bound via closure (latent Phase 0 bug, first `Clock` consumer surfaced it).
+- `firebase/php-jwt` v7: no `JWTException` base class — `AuthMiddleware` catches `\UnexpectedValueException`.
+- slim/psr7 1.8: `Stream::create()` removed (PSR-17 `StreamFactory::createStream()`); `getCookieParams()` never parses the `Cookie` header (tests use `withCookieParams()`; production gets cookies from `$_COOKIE`).
+All four are documented in `docs/DECISIONS.md`.
 
 ### Handoff
-(pending)
+- Phase 2 (trail maps) can lean on: `useAuthStore` (session state), `api()` (silent-refresh fetch), `RequireAuth`/`GuestOnly`/`RequireAdmin` guards, and the `LevelCalculator`/`/me` XP shape for level-up detection.
+- Dev DB now contains the smoke users (`smoke.phase1@example.com`, `smoke.proxy@example.com`) — dev data only.
+- Tag: `phase-1-done`. PR opened per `git.md` workflow — stop for review.
