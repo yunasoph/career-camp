@@ -78,3 +78,23 @@ All four are documented in `docs/DECISIONS.md`.
 - Phase 2 (trail maps) can lean on: `useAuthStore` (session state), `api()` (silent-refresh fetch), `RequireAuth`/`GuestOnly`/`RequireAdmin` guards, and the `LevelCalculator`/`/me` XP shape for level-up detection.
 - Dev DB now contains the smoke users (`smoke.phase1@example.com`, `smoke.proxy@example.com`) — dev data only.
 - Tag: `phase-1-done`. PR opened per `git.md` workflow — stop for review.
+
+## Phase 2 — Content & the Trail Map (read-only)
+**Status: IN PROGRESS** — plan at `docs/phases/PHASE_2_PLAN.md`, branch `phase-2-trails` (based on `phase-1-auth`)
+
+### Build checklist
+- [ ] Migration `002_differentiators.sql` (full §17.7 delta: theme, landmark, est_minutes, handle/is_public, 5 new tables)
+- [ ] Idempotent seeder + seed JSON: 12 badges, Frontend Developer (12 nodes) + Data Analyst (10 nodes), ≥3 quizzes each, dev users, production guard
+- [ ] `GET /roadmaps`, `GET /roadmaps/{slug}` (≤5 queries), `GET /nodes/{id}` (quiz answers stripped)
+- [ ] `NodeStateResolver` (O(nodes+edges), memoized DFS, cycle-safe) + unit tests
+- [ ] Landing: `CampusScene` hero (procedural, 3 parallax layers, fade mask, dusk variant), path picker, how-it-works stickers, featured paths, passport teaser, horizon footer
+- [ ] Catalog: search + difficulty filter, theme-tinted landmark cards, pixel-star difficulty
+- [ ] `RoadmapPage`: React Flow Trail Map (dotted trail edges, landmarks, fog/lantern/ring/flag states), node drawer / mobile bottom sheet, a11y
+- [ ] Loading skeletons + Biscuit empty/error states
+- [ ] Screenshots → `docs/screenshots/phase-2/` (3 pages × 375/768/1280 × light/dark = 18)
+
+### Exit gate results
+(pending)
+
+### Handoff
+(pending)
