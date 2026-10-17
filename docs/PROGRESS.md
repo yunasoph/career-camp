@@ -38,18 +38,26 @@ Status of each phase, verified against the exit gates in `phases.md`.
 - Tag: `phase-0-done`. PR opened per `git.md` workflow — stop for review.
 
 ## Phase 1 — Authentication & Accounts
-**Status: PLANNED** (plan: `docs/phases/PHASE_1_PLAN.md`, branch `phase-1-auth`)
+**Status: IN PROGRESS** — backend complete (PHPUnit `OK (33 tests, 127 assertions)`, PHPStan L6 clean); frontend pending (plan: `docs/phases/PHASE_1_PLAN.md`, branch `phase-1-auth`)
 
 ### Build checklist
-- [ ] Argon2id hashing; JWT access (15 min) + rotating httpOnly refresh cookie; hashed token storage; reuse detection revokes all tokens
-- [ ] Endpoints: `register`, `login`, `refresh`, `logout`, `GET/PATCH /me` (with level, `xp_to_next`, streak fields)
-- [ ] Middleware: Auth, Admin, RateLimit (auth endpoints 10/min/IP), JSON body, validation → error envelope
+- [x] Argon2id hashing; JWT access (15 min) + rotating httpOnly refresh cookie; hashed token storage; reuse detection revokes all tokens
+- [x] Endpoints: `register`, `login`, `refresh`, `logout`, `GET/PATCH /me` (with level, `xp_to_next`, streak fields)
+- [x] Middleware: Auth, Admin, RateLimit (auth endpoints 10/min/IP), JSON body, validation → error envelope
 - [ ] Frontend: typed API client with silent refresh + one retry on 401; in-memory token store; session restore on boot; `/login`, `/register` pages (React Hook Form + Zod, field errors from API); protected/guest/admin route guards
 - [ ] Nav shows level chip and streak chip when signed in (values from `/me`)
 - [ ] Profile settings page (display name, avatar URL, timezone)
 
+### Backend test coverage (29 new tests + 4 Phase 0)
+- `RegisterTest` — session + cookie on 201, Argon2id hash persisted, `409 email_taken`, `422` field details, returned token works on `/me`
+- `LoginTest` — session on 200, case-insensitive email, wrong password / unknown email → same `401 invalid_credentials`, empty password → `422`
+- `RefreshTest` — rotation chain (old token dead), reuse of rotated token revokes ALL tokens, missing/unknown/expired → `401 invalid_refresh`, logout revokes
+- `MeTest` — 401 without/garbage token, gamified profile shape (level 3 / xp_to_next 250 at 200 XP), PATCH + persistence, invalid timezone / empty name → `422`
+- `AdminGuardTest` — learner → `403 forbidden`, admin → 200, unauthenticated → 401
+- `RateLimitTest` — 11th auth request → `429 rate_limited`, per-IP budgets (X-Forwarded-For), non-auth routes unlimited
+
 ### Exit gate results
-(pending)
+(pending — frontend + manual gate)
 
 ### Handoff
 (pending)

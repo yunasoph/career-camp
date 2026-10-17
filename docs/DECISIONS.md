@@ -66,3 +66,25 @@ Running log of decisions made where `spec.md` was ambiguous or silent (spec §15
   `GET /me` must return `level` and `xp_to_next`: `level = floor(sqrt(xp/50)) +
   1`, `xp_to_next = 50·level² − xp`, title bands per §5.3. Phase 3 reuses the
   same class for level-up detection.
+- **Slim 4.15 route groups use a callback API, and group callbacks are public
+  static methods.** `group($pattern, $callback)` requires the callback (which
+  receives the group's route collector); the returned `RouteGroupInterface` has
+  no route methods. The callback is resolved through Slim's
+  `CallableResolver::bindToContainer()`, which calls `Closure::bindTo()` — that
+  returns null (with a PHP warning) for STATIC closures and crashes the app, so
+  `Routes` passes `[Routes::class, 'method']` references instead of closures.
+- **php-di 8: a plain class-string definition value is a LITERAL string.**
+  `Clock::class => SystemClock::class` no longer instantiates `SystemClock`
+  (it normalizes to a `ValueDefinition`); interface→implementation bindings use
+  closures (`Clock::class => static fn (): Clock => new SystemClock()`).
+  The Phase 0 string alias was latent — Phase 1 is the first container
+  consumer of `Clock`.
+- **`firebase/php-jwt` v7 has no common exception base class.** `JWTException`
+  was removed; `ExpiredException` / `BeforeValidException` /
+  `SignatureInvalidException` each extend `\UnexpectedValueException` directly,
+  so `AuthMiddleware` catches that.
+- **slim/psr7 1.8:** `Stream::create()` is gone (use PSR-17
+  `StreamFactory::createStream()`), and `Request::getCookieParams()` never
+  parses the `Cookie` header — tests set cookie params explicitly with
+  `withCookieParams()` (production gets them from `$_COOKIE` via
+  `createFromGlobals()`).

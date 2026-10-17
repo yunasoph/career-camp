@@ -19,7 +19,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Slim\App;
 use Slim\Psr7\Factory\ServerRequestFactory;
-use Slim\Psr7\Stream;
+use Slim\Psr7\Factory\StreamFactory;
 
 /**
  * Builds the production Slim app via AppFactory — the exact middleware chain
@@ -67,7 +67,9 @@ abstract class AppTestCase extends TestCase
             Settings::class => static fn (): Settings => Settings::fromEnv(),
             LoggerInterface::class => static fn (): LoggerInterface => new Logger('test', [new NullHandler()]),
             PDO::class => $db,
-            Clock::class => SystemClock::class,
+            // php-di 8: a plain class-string value is a LITERAL string
+            // (ValueDefinition), not an instantiation — bind with a closure.
+            Clock::class => static fn (): Clock => new SystemClock(),
         ]);
 
         return $builder->build();
@@ -87,8 +89,9 @@ abstract class AppTestCase extends TestCase
     /**
      * @param array<string, mixed>|null $json JSON body (null = no body)
      * @param array<string, string> $headers
+     * @param array<string, string> $cookies
      */
-    protected function call(string $method, string $path, ?array $json = null, array $headers = []): ResponseInterface
+    protected function call(string $method, string $path, ?array $json = null, array $headers = [], array $cookies = []): ResponseInterface
     {
         $request = (new ServerRequestFactory())->createServerRequest($method, $path);
 
@@ -96,9 +99,16 @@ abstract class AppTestCase extends TestCase
             $request = $request->withHeader($name, $value);
         }
 
+        // slim/psr7 1.8: getCookieParams() never parses the Cookie header,
+        // so cookie params must be set explicitly. (In production PHP-FPM
+        // populates them from $_COOKIE via createFromGlobals().)
+        if ($cookies !== []) {
+            $request = $request->withCookieParams($cookies);
+        }
+
         if ($json !== null) {
             $request = $request
-                ->withBody(Stream::create((string) json_encode($json, JSON_THROW_ON_ERROR)))
+                ->withBody((new StreamFactory())->createStream((string) json_encode($json, JSON_THROW_ON_ERROR)))
                 ->withHeader('Content-Type', 'application/json');
         }
 

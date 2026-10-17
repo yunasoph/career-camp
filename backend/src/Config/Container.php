@@ -46,7 +46,9 @@ final class Container
                     ],
                 );
             },
-            Clock::class => SystemClock::class,
+            // php-di 8: a plain class-string value is a LITERAL string
+            // (ValueDefinition), not an instantiation — bind with a closure.
+            Clock::class => static fn (): Clock => new SystemClock(),
             App::class => static fn (ContainerInterface $c): App => AppFactory::create($c),
         ]);
 
