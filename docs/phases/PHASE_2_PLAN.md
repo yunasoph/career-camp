@@ -90,20 +90,21 @@ dashboard, leaderboard, admin UI, badges UI.
     data-cleaning → visualization → statistics → dashboards`; ≥3 quizzes, difficulty
     `intermediate`, `est_hours` ~90, theme lagoon/observatory.
   - Resource URLs: MDN, freeCodeCamp, official docs home pages (spec §10).
-- `tests/Unit/SeedContentTest.php` (no DB): both JSON files parse; node counts ≥12/≥10;
+- `tests/SeedContentTest.php` (plain TestCase, no DB): both JSON files parse; node
+  counts ≥12/≥10;
   ≥3 quizzes per roadmap; every prerequisite references an existing node slug; no
   prerequisite cycles; task types valid; every quiz question has prompt/options/
   correct_index/explanation; xp ≥ 0; every node has a valid landmark + pos.
 - **Accept:** fresh DB → `npm run migrate && npm run seed` → expected row counts;
-  seed twice → identical counts; `APP_ENV=production php bin/seed.php` → refuses dev
-  users, exit 1.
+  seed twice → identical counts; `APP_ENV=production php bin/seed.php` → content
+  seeded but dev users refused (warning, exit 0 — spec §10 "refuse to create these").
 
 ### Step 2 — NodeStateResolver (pure domain)
 - `src/Domain/NodeState.php` (enum: locked/available/in_progress/completed).
 - `src/Domain/NodeStateResolver.php` — input: per-node facts
   `{id, prereqIds[], requiredTaskCount, completedRequiredTasks}`; output
   `map<nodeId, NodeState>`; memoized DFS per decision 7.
-- `tests/Unit/NodeStateResolverTest.php`: all four states; unlock chain A→B→C
+- `tests/NodeStateResolverTest.php` (plain TestCase): all four states; unlock chain A→B→C
   (completing A flips B to available); diamond A→{B,C}→D; in_progress boundary
   (0 vs 1 vs all required tasks, optional tasks ignored); locked cascade through
   chains; cycle safety (cycle nodes → locked, no infinite loop); 300-node stress

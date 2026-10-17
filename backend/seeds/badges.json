@@ -1,0 +1,86 @@
+[
+  {
+    "code": "first_step",
+    "name": "First Step",
+    "description": "Complete your first task.",
+    "icon": "👣",
+    "rule": { "type": "tasks_completed", "value": 1 }
+  },
+  {
+    "code": "node_master",
+    "name": "Node Master",
+    "description": "Complete a whole node on the trail.",
+    "icon": "🏁",
+    "rule": { "type": "nodes_completed", "value": 1 }
+  },
+  {
+    "code": "streak_3",
+    "name": "On Fire",
+    "description": "Reach a 3-day streak.",
+    "icon": "🔥",
+    "rule": { "type": "streak", "value": 3 }
+  },
+  {
+    "code": "streak_7",
+    "name": "On Fire",
+    "description": "Reach a 7-day streak.",
+    "icon": "🔥",
+    "rule": { "type": "streak", "value": 7 }
+  },
+  {
+    "code": "streak_30",
+    "name": "On Fire",
+    "description": "Reach a 30-day streak.",
+    "icon": "🔥",
+    "rule": { "type": "streak", "value": 30 }
+  },
+  {
+    "code": "xp_500",
+    "name": "XP Hunter",
+    "description": "Earn 500 total XP.",
+    "icon": "⭐",
+    "rule": { "type": "xp", "value": 500 }
+  },
+  {
+    "code": "xp_2000",
+    "name": "XP Hunter",
+    "description": "Earn 2,000 total XP.",
+    "icon": "⭐",
+    "rule": { "type": "xp", "value": 2000 }
+  },
+  {
+    "code": "xp_10000",
+    "name": "XP Hunter",
+    "description": "Earn 10,000 total XP.",
+    "icon": "⭐",
+    "rule": { "type": "xp", "value": 10000 }
+  },
+  {
+    "code": "quiz_ace",
+    "name": "Quiz Ace",
+    "description": "Score 100% on 3 quizzes.",
+    "icon": "🎯",
+    "rule": { "type": "quizzes_perfect", "value": 3 }
+  },
+  {
+    "code": "roadmap_complete",
+    "name": "Pathfinder",
+    "description": "Complete a full roadmap.",
+    "icon": "🧭",
+    "rule": { "type": "roadmaps_completed", "value": 1 }
+  },
+  {
+    "code": "level_5",
+    "name": "Rising Star",
+    "description": "Reach level 5.",
+    "icon": "🌟",
+    "rule": { "type": "level", "value": 5 }
+  },
+  {
+    "code": "level_10",
+    "name": "Rising Star",
+    "description": "Reach level 10.",
+    "icon": "🌟",
+    "rule": { "type": "level", "value": 10 }
+  }
+]

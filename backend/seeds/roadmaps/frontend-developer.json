@@ -1,0 +1,694 @@
+{
+  "slug": "frontend-developer",
+  "title": "Frontend Developer",
+  "summary": "From your first web request to a deployed React app: HTML, CSS, JavaScript, the DOM, TypeScript, testing and shipping.",
+  "icon": "🖥️",
+  "difficulty": "beginner",
+  "est_hours": 80,
+  "is_published": true,
+  "theme": {
+    "tint": "ember",
+    "landmarks": ["workshop", "tower", "bridge", "studio"]
+  },
+  "nodes": [
+    {
+      "slug": "internet-basics",
+      "title": "How the Web Works",
+      "description": "What happens between you and a website: browsers, servers, HTTP and the three languages of the web.",
+      "landmark": "garden-gate",
+      "pos": [0, 0],
+      "prerequisites": [],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Getting started with the web",
+          "description": "MDN's beginner overview: browsers, servers, domains and what a 'page' really is.",
+          "resource_url": "https://developer.mozilla.org/en-US/docs/Learn",
+          "xp": 10,
+          "est_minutes": 15
+        },
+        {
+          "type": "video",
+          "title": "How browsers render a page",
+          "description": "Watch web.dev's introduction to how browsers turn HTML, CSS and JS into pixels.",
+          "resource_url": "https://web.dev/",
+          "xp": 15,
+          "est_minutes": 20
+        },
+        {
+          "type": "practice",
+          "title": "Inspect a real page",
+          "description": "Open any site, right-click an element and choose Inspect. Find its CSS rules and count how many styles apply.",
+          "xp": 20,
+          "est_minutes": 20
+        },
+        {
+          "type": "quiz",
+          "title": "Web basics check",
+          "description": "Three quick questions on how the web works.",
+          "xp": 20,
+          "est_minutes": 10,
+          "quiz": {
+            "questions": [
+              {
+                "id": "q1",
+                "prompt": "What does a browser send first to fetch a web page?",
+                "options": ["An HTTP request", "A SQL query", "An SMTP email", "A DNS packet"],
+                "correct_index": 0,
+                "explanation": "The browser sends an HTTP request over a connection; DNS only resolves the name first."
+              },
+              {
+                "id": "q2",
+                "prompt": "Which protocol encrypts web traffic in transit?",
+                "options": ["FTP", "HTTPS", "Telnet", "RTSP"],
+                "correct_index": 1,
+                "explanation": "HTTPS wraps HTTP in TLS, encrypting the content between browser and server."
+              },
+              {
+                "id": "q3",
+                "prompt": "HTML, CSS and JavaScript all run…",
+                "options": ["On the database server only", "In the browser", "In the operating system kernel", "In a spreadsheet"],
+                "correct_index": 1,
+                "explanation": "The browser parses HTML, applies CSS and executes JavaScript to render the page."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "html",
+      "title": "HTML Foundations",
+      "description": "Structure pages with semantic elements: headings, lists, images, links and forms.",
+      "landmark": "library",
+      "pos": [240, 150],
+      "prerequisites": ["internet-basics"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "The HTML guide",
+          "description": "MDN's HTML reference: elements, attributes and document structure.",
+          "resource_url": "https://developer.mozilla.org/en-US/docs/Web/HTML",
+          "xp": 10,
+          "est_minutes": 30
+        },
+        {
+          "type": "video",
+          "title": "freeCodeCamp: HTML courses",
+          "description": "Work through the HTML lessons on freeCodeCamp's learn path.",
+          "resource_url": "https://www.freecodecamp.org/learn/",
+          "xp": 15,
+          "est_minutes": 60
+        },
+        {
+          "type": "practice",
+          "title": "Structure a profile page",
+          "description": "Build a page with a <header>, a <main> containing two <section>s, an ordered list of skills, and a <figure> with an image and <figcaption>.",
+          "xp": 20,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Forms: a contact form",
+          "description": "Create a form with name, email and message fields. Every input needs a <label>, the email input uses type=email, and the form has a submit button.",
+          "xp": 20,
+          "est_minutes": 45
+        },
+        {
+          "type": "quiz",
+          "title": "HTML quiz",
+          "description": "Semantic elements, accessibility and forms.",
+          "xp": 20,
+          "est_minutes": 10,
+          "quiz": {
+            "questions": [
+              {
+                "id": "q1",
+                "prompt": "Which element best wraps the main unique content of a page?",
+                "options": ["<div>", "<span>", "<main>", "<footer>"],
+                "correct_index": 2,
+                "explanation": "<main> is the semantic container for the page's primary content; use one per page."
+              },
+              {
+                "id": "q2",
+                "prompt": "Which attribute makes an <img> accessible to screen readers?",
+                "options": ["title", "alt", "aria-hidden", "label"],
+                "correct_index": 1,
+                "explanation": "alt text is read by assistive technology and shown when the image fails to load."
+              },
+              {
+                "id": "q3",
+                "prompt": "Which input type gets native email validation in the browser?",
+                "options": ["type=text", "type=mail", "type=email", "type=string"],
+                "correct_index": 2,
+                "explanation": "type=email makes the browser check the value looks like an address before submitting."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "git",
+      "title": "Git & Version Control",
+      "description": "Track your work: repositories, commits, branches and your first merge.",
+      "landmark": "workshop",
+      "pos": [480, 150],
+      "prerequisites": ["internet-basics"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Git documentation",
+          "description": "The official Git docs: concepts and the everyday commands.",
+          "resource_url": "https://git-scm.com/doc",
+          "xp": 10,
+          "est_minutes": 30
+        },
+        {
+          "type": "video",
+          "title": "Pro Git (free book)",
+          "description": "Skim the first three chapters of the free Pro Git book.",
+          "resource_url": "https://git-scm.com/book/en/v2",
+          "xp": 15,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Commit and branch",
+          "description": "git init a folder, make three commits, create a feature branch, commit there, then merge it back and explain what happened.",
+          "xp": 20,
+          "est_minutes": 40
+        },
+        {
+          "type": "quiz",
+          "title": "Git quiz",
+          "description": "Repositories, commits and branches.",
+          "xp": 20,
+          "est_minutes": 10,
+          "quiz": {
+            "questions": [
+              {
+                "id": "q1",
+                "prompt": "What does git commit actually store?",
+                "options": ["Only the files changed since the last commit", "A snapshot of every tracked file", "The working directory as-is", "A zip archive of the repo"],
+                "correct_index": 1,
+                "explanation": "Git is a snapshot tool: each commit records the full state of the tracked files."
+              },
+              {
+                "id": "q2",
+                "prompt": "You are on a feature branch and want your default branch's working tree. Which command switches branches?",
+                "options": ["git pull", "git switch main", "git clone", "git reset"],
+                "correct_index": 1,
+                "explanation": "git switch (or git checkout) moves your working tree to another branch."
+              },
+              {
+                "id": "q3",
+                "prompt": "What is the staging area for?",
+                "options": ["Temporarily deleting files", "Storing remote repositories", "Choosing exactly which changes go into the next commit", "Caching the network"],
+                "correct_index": 2,
+                "explanation": "git add places changes in the index, and the next commit captures exactly that selection."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "css",
+      "title": "CSS & Layout",
+      "description": "Style everything: the box model, typography, Flexbox and the cascade.",
+      "landmark": "studio",
+      "pos": [0, 300],
+      "prerequisites": ["html"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "The CSS guide",
+          "description": "MDN's CSS overview: selectors, the cascade, and how styles apply.",
+          "resource_url": "https://developer.mozilla.org/en-US/docs/Web/CSS",
+          "xp": 10,
+          "est_minutes": 30
+        },
+        {
+          "type": "video",
+          "title": "MDN Learn: CSS",
+          "description": "Work through the CSS lessons on MDN's Learn path.",
+          "resource_url": "https://developer.mozilla.org/en-US/docs/Learn/CSS",
+          "xp": 15,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Box model & typography",
+          "description": "Restyle a paragraph block so content, padding, border and margin are each a different colour. Set a readable line-height and max-width.",
+          "xp": 20,
+          "est_minutes": 40
+        },
+        {
+          "type": "practice",
+          "title": "Layout with Flexbox",
+          "description": "Build a navbar with a logo, three links and a button, spaced with justify-content and align-items — no floats, no absolute positioning.",
+          "xp": 20,
+          "est_minutes": 45
+        },
+        {
+          "type": "quiz",
+          "title": "CSS quiz",
+          "description": "Box model, Flexbox and media queries.",
+          "xp": 20,
+          "est_minutes": 10,
+          "quiz": {
+            "questions": [
+              {
+                "id": "q1",
+                "prompt": "In the box model, which layer sits directly outside the padding?",
+                "options": ["margin", "border", "content", "outline"],
+                "correct_index": 1,
+                "explanation": "Order from the inside out: content → padding → border → margin."
+              },
+              {
+                "id": "q2",
+                "prompt": "Which property aligns flex items along the MAIN axis?",
+                "options": ["align-items", "float", "justify-content", "order"],
+                "correct_index": 2,
+                "explanation": "justify-content works on the main axis; align-items works on the cross axis."
+              },
+              {
+                "id": "q3",
+                "prompt": "Media queries are used to…",
+                "options": ["Import web fonts", "Hide the DOM from search engines", "Apply styles based on features like viewport width", "Create new HTML elements"],
+                "correct_index": 2,
+                "explanation": "@media rules let styles respond to device features — the core of responsive design."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "javascript",
+      "title": "JavaScript Essentials",
+      "description": "The language of the web: variables, functions, arrays, objects and promises.",
+      "landmark": "workshop",
+      "pos": [240, 300],
+      "prerequisites": ["html"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "The JavaScript guide",
+          "description": "MDN's JavaScript area: the language, the standard library and the Web API.",
+          "resource_url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+          "xp": 10,
+          "est_minutes": 45
+        },
+        {
+          "type": "video",
+          "title": "JavaScript on freeCodeCamp",
+          "description": "Complete the JavaScript basics courses on freeCodeCamp.",
+          "resource_url": "https://www.freecodecamp.org/learn/",
+          "xp": 15,
+          "est_minutes": 90
+        },
+        {
+          "type": "practice",
+          "title": "Variables, functions & loops",
+          "description": "Write three small functions: one that sums an array, one that reverses a string, and one that counts the vowels in a sentence. Test each in the console.",
+          "xp": 20,
+          "est_minutes": 60
+        },
+        {
+          "type": "practice",
+          "title": "Array methods",
+          "description": "Given a list of 10 numbers, produce: the evens (filter), their squares (map), and their total (reduce) — chained or separate, your choice.",
+          "xp": 20,
+          "est_minutes": 45
+        },
+        {
+          "type": "quiz",
+          "title": "JavaScript quiz",
+          "description": "Five questions on the language core.",
+          "xp": 20,
+          "est_minutes": 15,
+          "quiz": {
+            "questions": [
+              {
+                "id": "q1",
+                "prompt": "Which keyword declares a block-scoped variable that can be reassigned?",
+                "options": ["let", "var", "const", "static"],
+                "correct_index": 0,
+                "explanation": "let is block-scoped and reassignable; var is function-scoped; const cannot be reassigned."
+              },
+              {
+                "id": "q2",
+                "prompt": "What does [1, 2, 3].map(n => n * 2) return?",
+                "options": ["6", "[1, 2, 3, 1, 2, 3]", "[2, 4, 6]", "undefined"],
+                "correct_index": 2,
+                "explanation": "map builds a new array by applying the function to every element."
+              },
+              {
+                "id": "q3",
+                "prompt": "Which of these is NOT a primitive type in JavaScript?",
+                "options": ["string", "object", "symbol", "bigint"],
+                "correct_index": 1,
+                "explanation": "Primitives are string, number, bigint, boolean, undefined, symbol and null — everything else is an object."
+              },
+              {
+                "id": "q4",
+                "prompt": "What is the result of typeof null?",
+                "options": ["'null'", "'undefined'", "'object'", "'number'"],
+                "correct_index": 2,
+                "explanation": "A famous historical bug: null has been typeof 'object' since the first JavaScript interpreter."
+              },
+              {
+                "id": "q5",
+                "prompt": "A Promise represents…",
+                "options": ["A synchronous loop", "A value that will be available later", "A DOM node", "A CSS rule"],
+                "correct_index": 1,
+                "explanation": "Promises model asynchronous results: pending, fulfilled or rejected."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "dom",
+      "title": "DOM & Events",
+      "description": "Make pages interactive: select elements, change them, and react to user events.",
+      "landmark": "lab",
+      "pos": [0, 450],
+      "prerequisites": ["javascript"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "The Web API",
+          "description": "MDN's Web API reference: the DOM, events, fetch and friends.",
+          "resource_url": "https://developer.mozilla.org/en-US/docs/Web/API",
+          "xp": 10,
+          "est_minutes": 30
+        },
+        {
+          "type": "practice",
+          "title": "Select & style elements",
+          "description": "On any HTML page you wrote, use querySelector to select three different elements and change one attribute or style on each.",
+          "xp": 20,
+          "est_minutes": 40
+        },
+        {
+          "type": "practice",
+          "title": "Make a button counter",
+          "description": "A button and a number on a page: clicking increases the number, a second button resets it. No frameworks — plain DOM APIs.",
+          "xp": 20,
+          "est_minutes": 45
+        },
+        {
+          "type": "quiz",
+          "title": "DOM quiz",
+          "description": "Selectors, events and element creation.",
+          "xp": 20,
+          "est_minutes": 10,
+          "quiz": {
+            "questions": [
+              {
+                "id": "q1",
+                "prompt": "Which method finds the first element matching a CSS selector?",
+                "options": ["document.findElement", "document.querySelector", "document.select", "window.query"],
+                "correct_index": 1,
+                "explanation": "querySelector takes any CSS selector and returns the first match (or null)."
+              },
+              {
+                "id": "q2",
+                "prompt": "With button.addEventListener('click', fn), when does fn run?",
+                "options": ["Immediately once", "On every page load", "When the user clicks the button", "Never"],
+                "correct_index": 2,
+                "explanation": "Event listeners fire when the named event happens on the element."
+              },
+              {
+                "id": "q3",
+                "prompt": "How do you create a new <div> in code?",
+                "options": ["new Div()", "document.makeElement", "div.create()", "document.createElement('div')"],
+                "correct_index": 3,
+                "explanation": "createElement builds the element; you still have to append it to the document."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "responsive-design",
+      "title": "Responsive Design & Accessibility",
+      "description": "Design for every screen: mobile-first CSS, and make your pages work for everyone.",
+      "landmark": "studio",
+      "pos": [240, 600],
+      "prerequisites": ["css", "javascript"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "MDN Learn: CSS layout & responsive design",
+          "description": "MDN's responsive design lessons, including media queries and the viewport.",
+          "resource_url": "https://developer.mozilla.org/en-US/docs/Learn/CSS",
+          "xp": 10,
+          "est_minutes": 45
+        },
+        {
+          "type": "video",
+          "title": "web.dev: responsive design guides",
+          "description": "Work through Google's responsive design guides on web.dev.",
+          "resource_url": "https://web.dev/learn",
+          "xp": 15,
+          "est_minutes": 40
+        },
+        {
+          "type": "practice",
+          "title": "Mobile-first layout",
+          "description": "Take one of your pages and rebuild it mobile-first: base styles for 360px, then two media-query breakpoints for tablet and desktop.",
+          "xp": 20,
+          "est_minutes": 60
+        },
+        {
+          "type": "practice",
+          "title": "Accessibility pass",
+          "description": "Audit one page: text contrast ≥ 4.5:1, every input has a label, images have alt text, and everything is reachable by keyboard. Write down what you fixed.",
+          "xp": 20,
+          "est_minutes": 45
+        }
+      ]
+    },
+    {
+      "slug": "react",
+      "title": "React Fundamentals",
+      "description": "Component-driven UIs: props, state, events and thinking in components.",
+      "landmark": "tower",
+      "pos": [480, 600],
+      "prerequisites": ["javascript", "git"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "React: Quick Start",
+          "description": "The official React docs' getting-started track: components, JSX and rendering.",
+          "resource_url": "https://react.dev/learn",
+          "xp": 10,
+          "est_minutes": 45
+        },
+        {
+          "type": "video",
+          "title": "webdevs: React walkthroughs",
+          "description": "Watch a React tutorial from the webdevs channel and follow along.",
+          "resource_url": "https://www.youtube.com/@webdevs",
+          "xp": 15,
+          "est_minutes": 60
+        },
+        {
+          "type": "practice",
+          "title": "Components & props",
+          "description": "Build a small app from three components: a header, a list of items, and an item row. The parent passes data down through props.",
+          "xp": 20,
+          "est_minutes": 60
+        },
+        {
+          "type": "practice",
+          "title": "State & events: a todo list",
+          "description": "A todo list where you can add items and mark them done. State lives in the parent; updates re-render the list.",
+          "xp": 20,
+          "est_minutes": 60
+        },
+        {
+          "type": "quiz",
+          "title": "React quiz",
+          "description": "Components, props, state and hooks.",
+          "xp": 20,
+          "est_minutes": 15,
+          "quiz": {
+            "questions": [
+              {
+                "id": "q1",
+                "prompt": "In React, the basic building block of the UI is a…",
+                "options": ["Template", "Component", "Directive", "Widget factory"],
+                "correct_index": 1,
+                "explanation": "Components are functions that return UI; you compose apps by nesting them."
+              },
+              {
+                "id": "q2",
+                "prompt": "Props in React are…",
+                "options": ["Global state", "Mutated by the child", "Read-only inputs passed from a parent", "CSS properties"],
+                "correct_index": 2,
+                "explanation": "Data flows down: parents pass props to children, and children never mutate them."
+              },
+              {
+                "id": "q3",
+                "prompt": "Which hook stores state in a function component?",
+                "options": ["useMemory", "useState", "useStateRef", "useStore"],
+                "correct_index": 1,
+                "explanation": "useState returns a value and a setter; setting the value schedules a re-render."
+              },
+              {
+                "id": "q4",
+                "prompt": "State updates in React are…",
+                "options": ["Synchronous and immediate", "Async and batched", "Forbidden in function components", "Only allowed in class components"],
+                "correct_index": 1,
+                "explanation": "React batches updates and re-renders asynchronously — never assume the UI changed the instant you call the setter."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "typescript",
+      "title": "TypeScript",
+      "description": "Add static types to JavaScript: interfaces, generics and catching bugs before runtime.",
+      "landmark": "lab",
+      "pos": [240, 750],
+      "prerequisites": ["react"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "The TypeScript Handbook",
+          "description": "The official handbook's core chapters: types, interfaces and narrowing.",
+          "resource_url": "https://www.typescriptlang.org/docs/handbook/",
+          "xp": 10,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Types, interfaces & generics",
+          "description": "Write a typed User interface, a function that filters a list of users by role, and a generic identity function with a constraint.",
+          "xp": 20,
+          "est_minutes": 60
+        },
+        {
+          "type": "practice",
+          "title": "Port a JS file to TypeScript",
+          "description": "Take one of your plain-JS practice files, add types to every function signature, and note which bugs the compiler caught for you.",
+          "xp": 20,
+          "est_minutes": 45
+        }
+      ]
+    },
+    {
+      "slug": "testing",
+      "title": "Testing JavaScript",
+      "description": "Write tests that catch regressions: unit tests with Jest and component tests with React Testing Library.",
+      "landmark": "lab",
+      "pos": [480, 750],
+      "prerequisites": ["react"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Jest: Getting Started",
+          "description": "The official Jest docs: describe/it/expect and running your first test.",
+          "resource_url": "https://jestjs.io/docs/getting-started",
+          "xp": 10,
+          "est_minutes": 30
+        },
+        {
+          "type": "practice",
+          "title": "Unit test a utility function",
+          "description": "Write tests for your sum/reverse/vowels functions (or similar): at least 3 test cases each, including one edge case.",
+          "xp": 20,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Test a React component",
+          "description": "With React Testing Library, render your todo list: type in an item, press add, and assert the item appears.",
+          "xp": 20,
+          "est_minutes": 60
+        }
+      ]
+    },
+    {
+      "slug": "build-tools",
+      "title": "Build Tools & Bundlers",
+      "description": "How modern apps are built: dev servers, HMR, env vars and production bundles with Vite.",
+      "landmark": "workshop",
+      "pos": [240, 900],
+      "prerequisites": ["typescript", "testing"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "The Vite guide",
+          "description": "Vite's official guide: how the dev server and the build pipeline work.",
+          "resource_url": "https://vite.dev/guide/",
+          "xp": 10,
+          "est_minutes": 30
+        },
+        {
+          "type": "practice",
+          "title": "Scaffold a Vite project",
+          "description": "Create a new Vite + React + TypeScript project, run it locally, and explain in two sentences what HMR just did when you edited a file.",
+          "xp": 20,
+          "est_minutes": 40
+        },
+        {
+          "type": "practice",
+          "title": "Configure env vars & aliases",
+          "description": "Add a .env file with one variable, read it in the app, and set up a path alias (@/) so imports stop using ../../.",
+          "xp": 20,
+          "est_minutes": 30
+        }
+      ]
+    },
+    {
+      "slug": "deployment",
+      "title": "Deployment & DevOps Basics",
+      "description": "Ship it: static hosting, environment-specific builds, and what happens after you press deploy.",
+      "landmark": "bridge",
+      "pos": [0, 1050],
+      "prerequisites": ["build-tools"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Vercel docs: front-end frameworks",
+          "description": "How platforms deploy SPA frameworks: builds, preview URLs and environments.",
+          "resource_url": "https://vercel.com/docs",
+          "xp": 10,
+          "est_minutes": 30
+        },
+        {
+          "type": "video",
+          "title": "CI/CD for front-end devs",
+          "description": "Watch an introduction to CI/CD and note two things it could do for your workflow.",
+          "resource_url": "https://www.youtube.com/@webdevs",
+          "xp": 15,
+          "est_minutes": 30
+        },
+        {
+          "type": "practice",
+          "title": "Ship a live preview",
+          "description": "Deploy your todo app to a free host so it has a public URL. Verify the production build (not the dev server) is what runs.",
+          "xp": 20,
+          "est_minutes": 60
+        },
+        {
+          "type": "project",
+          "title": "Portfolio v1",
+          "description": "A personal site with at least three pages (home, projects, about), built with Vite + React, responsive on 375/768/1280, and deployed to a public URL. Include a short reflection on what was hardest.",
+          "xp": 50,
+          "est_minutes": 180
+        }
+      ]
+    }
+  ]
+}

@@ -83,8 +83,8 @@ All four are documented in `docs/DECISIONS.md`.
 **Status: IN PROGRESS** — plan at `docs/phases/PHASE_2_PLAN.md`, branch `phase-2-trails` (based on `phase-1-auth`)
 
 ### Build checklist
-- [ ] Migration `002_differentiators.sql` (full §17.7 delta: theme, landmark, est_minutes, handle/is_public, 5 new tables)
-- [ ] Idempotent seeder + seed JSON: 12 badges, Frontend Developer (12 nodes) + Data Analyst (10 nodes), ≥3 quizzes each, dev users, production guard
+- [x] Migration `002_differentiators.sql` (full §17.7 delta: theme, landmark, est_minutes, handle/is_public, 5 new tables)
+- [x] Idempotent seeder + seed JSON: 12 badges, Frontend Developer (12 nodes, 49 tasks, 7 quizzes) + Data Analyst (10 nodes, 30 tasks, 3 quizzes), dev users, production guard
 - [ ] `GET /roadmaps`, `GET /roadmaps/{slug}` (≤5 queries), `GET /nodes/{id}` (quiz answers stripped)
 - [ ] `NodeStateResolver` (O(nodes+edges), memoized DFS, cycle-safe) + unit tests
 - [ ] Landing: `CampusScene` hero (procedural, 3 parallax layers, fade mask, dusk variant), path picker, how-it-works stickers, featured paths, passport teaser, horizon footer

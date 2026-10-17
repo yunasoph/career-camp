@@ -1,0 +1,412 @@
+{
+  "slug": "data-analyst",
+  "title": "Data Analyst",
+  "summary": "Turn raw data into decisions: SQL, Python, pandas, cleaning, visualization, statistics and a dashboard you can present.",
+  "icon": "📊",
+  "difficulty": "intermediate",
+  "est_hours": 90,
+  "is_published": true,
+  "theme": {
+    "tint": "lagoon",
+    "landmarks": ["observatory", "lab", "tower", "bridge"]
+  },
+  "nodes": [
+    {
+      "slug": "data-fundamentals",
+      "title": "Data Thinking",
+      "description": "What analysis is actually for: questions, datasets, sources and what 'good data' means.",
+      "landmark": "observatory",
+      "pos": [0, 0],
+      "prerequisites": [],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Kaggle Learn: data analysis",
+          "description": "Kaggle's free beginner course on data analysis and Python.",
+          "resource_url": "https://www.kaggle.com/learn",
+          "xp": 10,
+          "est_minutes": 30
+        },
+        {
+          "type": "video",
+          "title": "FreeCodeCamp data analysis intro",
+          "description": "Watch an introduction to the analyst workflow: question → data → insight → decision.",
+          "resource_url": "https://www.freecodecamp.org/learn/",
+          "xp": 15,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Frame 3 real problems as data questions",
+          "description": "Pick three decisions from your own life (or a job ad you like) and write each as a precise, answerable data question. Note which data you would need.",
+          "xp": 20,
+          "est_minutes": 40
+        }
+      ]
+    },
+    {
+      "slug": "csv-spreadsheets",
+      "title": "CSVs & Spreadsheets",
+      "description": "Work with the format every dataset arrives in: reading, sorting, filtering and pivoting tables.",
+      "landmark": "lab",
+      "pos": [240, 150],
+      "prerequisites": ["data-fundamentals"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Google Sheets help",
+          "description": "The official Sheets help docs: formulas, sorting and filtering basics.",
+          "resource_url": "https://support.google.com/docs",
+          "xp": 10,
+          "est_minutes": 20
+        },
+        {
+          "type": "practice",
+          "title": "Clean a messy CSV",
+          "description": "Find a public CSV (city open data works well). Fix at least: one date column, one number stored as text, and one column with inconsistent casing.",
+          "xp": 20,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Pivot: totals by group",
+          "description": "From any table with a category column and an amount column, build a summary of totals per category using formulas (no macros).",
+          "xp": 20,
+          "est_minutes": 40
+        }
+      ]
+    },
+    {
+      "slug": "sql-basics",
+      "title": "SQL Basics",
+      "description": "The analyst's core tool: SELECT, WHERE, ORDER BY and reading tables like a map.",
+      "landmark": "garden-gate",
+      "pos": [0, 300],
+      "prerequisites": ["data-fundamentals"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Kaggle Learn: SQL",
+          "description": "Kaggle's interactive SQL course — the fastest path from zero to querying real tables.",
+          "resource_url": "https://www.kaggle.com/learn",
+          "xp": 10,
+          "est_minutes": 60
+        },
+        {
+          "type": "practice",
+          "title": "SELECT, WHERE, ORDER BY",
+          "description": "Against any public dataset (Kaggle notebooks have plenty), write three queries: top 10 by one metric, rows matching a condition, and the distinct values of a category column.",
+          "xp": 20,
+          "est_minutes": 60
+        },
+        {
+          "type": "quiz",
+          "title": "SQL basics quiz",
+          "description": "Filtering, aggregating and counting.",
+          "xp": 20,
+          "est_minutes": 10,
+          "quiz": {
+            "questions": [
+              {
+                "id": "q1",
+                "prompt": "Which clause filters rows BEFORE any aggregation happens?",
+                "options": ["GROUP BY", "ORDER BY", "WHERE", "HAVING"],
+                "correct_index": 2,
+                "explanation": "WHERE filters rows first; HAVING filters groups after aggregation."
+              },
+              {
+                "id": "q2",
+                "prompt": "In a grouped query, COUNT(*) counts…",
+                "options": ["All rows in the group", "Distinct values", "Columns", "Tables"],
+                "correct_index": 0,
+                "explanation": "COUNT(*) tallies every row that falls into the group; COUNT(DISTINCT col) counts unique values."
+              },
+              {
+                "id": "q3",
+                "prompt": "Which function returns the average of a column?",
+                "options": ["MEAN()", "AVG()", "MEDIAN()", "TOTAL()"],
+                "correct_index": 1,
+                "explanation": "AVG() computes the mean of non-null values; SQL has no MEAN() function."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "python-basics",
+      "title": "Python for Data",
+      "description": "The analyst's scripting language: variables, loops, dicts and list comprehensions.",
+      "landmark": "workshop",
+      "pos": [480, 150],
+      "prerequisites": ["data-fundamentals"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "The Python tutorial",
+          "description": "The official tutorial — chapters on data structures are the ones analysts live in.",
+          "resource_url": "https://docs.python.org/3/tutorial/",
+          "xp": 10,
+          "est_minutes": 60
+        },
+        {
+          "type": "video",
+          "title": "Kaggle Python course",
+          "description": "Kaggle Learn's Python course, done in a notebook so you can run code as you go.",
+          "resource_url": "https://www.kaggle.com/learn",
+          "xp": 15,
+          "est_minutes": 90
+        },
+        {
+          "type": "practice",
+          "title": "Loops, dicts & comprehensions",
+          "description": "Write a script that reads a list of (name, score) pairs, keeps the top 3 in a dict, and prints a summary using one list comprehension.",
+          "xp": 20,
+          "est_minutes": 60
+        }
+      ]
+    },
+    {
+      "slug": "sql-joins-aggregates",
+      "title": "Joins & Aggregations",
+      "description": "Where the real power is: combining tables with JOIN and summarizing with GROUP BY.",
+      "landmark": "tower",
+      "pos": [240, 450],
+      "prerequisites": ["sql-basics"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Kaggle Learn: database relationships",
+          "description": "Kaggle's course on working with related tables: joins, keys and one-to-many.",
+          "resource_url": "https://www.kaggle.com/learn",
+          "xp": 10,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "JOIN two tables",
+          "description": "Find a two-table dataset (e.g. orders + customers). Write an INNER JOIN that returns order totals per customer, and a LEFT JOIN showing customers with zero orders.",
+          "xp": 20,
+          "est_minutes": 60
+        },
+        {
+          "type": "practice",
+          "title": "GROUP BY + HAVING",
+          "description": "From the same dataset: the top 5 categories by total amount, using GROUP BY and HAVING to keep only groups above a threshold you choose.",
+          "xp": 20,
+          "est_minutes": 45
+        }
+      ]
+    },
+    {
+      "slug": "pandas",
+      "title": "DataFrames with Pandas",
+      "description": "The workhorse of Python data work: load, filter, transform and summarize tables fast.",
+      "landmark": "lab",
+      "pos": [0, 600],
+      "prerequisites": ["python-basics", "csv-spreadsheets"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "The pandas user guide",
+          "description": "The official docs' introductory sections: index, selection and aggregation.",
+          "resource_url": "https://pandas.pydata.org/docs/",
+          "xp": 10,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Load, filter, summarize a CSV",
+          "description": "Load a public CSV with pandas, filter to one condition, then produce the mean and max of a numeric column per category with one groupby call.",
+          "xp": 20,
+          "est_minutes": 60
+        },
+        {
+          "type": "quiz",
+          "title": "Pandas quiz",
+          "description": "DataFrames, read_csv and groupby.",
+          "xp": 20,
+          "est_minutes": 10,
+          "quiz": {
+            "questions": [
+              {
+                "id": "q1",
+                "prompt": "A pandas DataFrame is best described as…",
+                "options": ["A 2-D labelled table", "A 1-D vector", "A dictionary of functions", "An SQL query"],
+                "correct_index": 0,
+                "explanation": "A DataFrame is a labelled, columnar 2-D table; the 1-D version is a Series."
+              },
+              {
+                "id": "q2",
+                "prompt": "Which method loads a CSV file into a DataFrame?",
+                "options": ["pd.load()", "DataFrame.csv()", "pd.read_csv()", "pd.import_csv()"],
+                "correct_index": 2,
+                "explanation": "pd.read_csv is the standard entry point; pandas also reads Excel, JSON, SQL and more."
+              },
+              {
+                "id": "q3",
+                "prompt": "df.groupby('city')['sales'].sum() produces…",
+                "options": ["The raw CSV back", "One row per city with total sales", "A new column in df", "A pivot chart"],
+                "correct_index": 1,
+                "explanation": "groupby splits by the key column, applies the aggregation, and returns one row per group."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "data-cleaning",
+      "title": "Data Cleaning",
+      "description": "Where 80% of the job lives: missing values, bad types, duplicates and messy dates.",
+      "landmark": "bridge",
+      "pos": [240, 750],
+      "prerequisites": ["pandas"],
+      "tasks": [
+        {
+          "type": "practice",
+          "title": "Handle missing values",
+          "description": "On a dataset with missing data: report how many cells are missing per column, then fix them with an informed choice (drop, fill with the median, or a sentinel) and justify it in one sentence.",
+          "xp": 20,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Fix types & duplicates",
+          "description": "Convert a text column of numbers to numeric, coerce invalid dates, and remove fully duplicated rows. Print the row count before and after.",
+          "xp": 20,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Normalize dates",
+          "description": "Take a column with dates in mixed formats (e.g. 2024-01-05, 05/01/2024) and produce a single clean datetime column plus derived month and weekday columns.",
+          "xp": 20,
+          "est_minutes": 45
+        }
+      ]
+    },
+    {
+      "slug": "visualization",
+      "title": "Data Visualization",
+      "description": "Show your findings honestly: the right chart for the right question, with labels and context.",
+      "landmark": "studio",
+      "pos": [0, 900],
+      "prerequisites": ["pandas"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Matplotlib guide",
+          "description": "The official Matplotlib docs: figures, axes and the three chart types that do 80% of the work.",
+          "resource_url": "https://matplotlib.org/stable/",
+          "xp": 10,
+          "est_minutes": 30
+        },
+        {
+          "type": "video",
+          "title": "Kaggle Learn: data visualization",
+          "description": "Kaggle's visualization course: line, bar and scatter charts with seaborn/matplotlib.",
+          "resource_url": "https://www.kaggle.com/learn",
+          "xp": 15,
+          "est_minutes": 45
+        },
+        {
+          "type": "practice",
+          "title": "Three charts, one dataset",
+          "description": "From one cleaned dataset, produce a line chart (trend over time), a bar chart (comparison across categories) and a scatter plot (relationship between two numbers). Title each and label the axes.",
+          "xp": 20,
+          "est_minutes": 60
+        }
+      ]
+    },
+    {
+      "slug": "statistics",
+      "title": "Statistics Essentials",
+      "description": "The math that keeps you honest: distributions, central tendency, spread and when a result is real.",
+      "landmark": "observatory",
+      "pos": [480, 450],
+      "prerequisites": ["python-basics"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Kaggle Learn: data analysis (statistics)",
+          "description": "Kaggle's statistics lessons: mean/median, distributions and basic inference.",
+          "resource_url": "https://www.kaggle.com/learn",
+          "xp": 10,
+          "est_minutes": 60
+        },
+        {
+          "type": "practice",
+          "title": "Mean, median & distributions",
+          "description": "Compute mean, median and standard deviation for one numeric column. Sketch (or plot) its distribution and write two sentences on whether the mean or the median better represents a 'typical' value.",
+          "xp": 20,
+          "est_minutes": 45
+        },
+        {
+          "type": "quiz",
+          "title": "Statistics quiz",
+          "description": "Central tendency, spread and sampling.",
+          "xp": 20,
+          "est_minutes": 10,
+          "quiz": {
+            "questions": [
+              {
+                "id": "q1",
+                "prompt": "Which measure of center is least affected by extreme outliers?",
+                "options": ["Mean", "Sum", "Median", "Range"],
+                "correct_index": 2,
+                "explanation": "The median splits the data in half, so one extreme value barely moves it; the mean is dragged along."
+              },
+              {
+                "id": "q2",
+                "prompt": "Standard deviation measures…",
+                "options": ["The total of the data", "The sample size", "Spread around the mean", "Correlation between columns"],
+                "correct_index": 2,
+                "explanation": "Standard deviation describes how far values typically sit from the mean."
+              },
+              {
+                "id": "q3",
+                "prompt": "A sample is biased when…",
+                "options": ["It is large", "It is random", "Some groups are systematically over- or under-represented", "It uses a spreadsheet"],
+                "correct_index": 2,
+                "explanation": "Bias means the sampling process consistently skews which people/data make it into the sample."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "slug": "dashboards",
+      "title": "Dashboards & Reporting",
+      "description": "Package your analysis for decisions: a dashboard someone else can read in under a minute.",
+      "landmark": "tower",
+      "pos": [240, 1050],
+      "prerequisites": ["data-cleaning", "visualization", "sql-joins-aggregates"],
+      "tasks": [
+        {
+          "type": "reading",
+          "title": "Looker Studio help",
+          "description": "The free dashboard tool's docs: connecting data, building charts and sharing reports.",
+          "resource_url": "https://lookerstudio.google.com",
+          "xp": 10,
+          "est_minutes": 20
+        },
+        {
+          "type": "practice",
+          "title": "Build a 4-metric dashboard",
+          "description": "From a real dataset: one dashboard with exactly four metrics (e.g. total, trend, top-5 breakdown, comparison). Someone should get the story from the layout alone.",
+          "xp": 20,
+          "est_minutes": 90
+        },
+        {
+          "type": "project",
+          "title": "Public analysis report",
+          "description": "Publish a small end-to-end analysis: a public dataset, your cleaning steps, three charts, and a five-sentence conclusion answering the question you started with. Host it anywhere (GitHub Pages, a notebook, a blog) and share the URL.",
+          "xp": 50,
+          "est_minutes": 180
+        }
+      ]
+    }
+  ]
+}
