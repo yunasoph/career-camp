@@ -133,7 +133,7 @@ final class RoadmapRepository
         $stmt = $this->db->prepare(
             "SELECT t.node_id, count(c.id) AS completed
              FROM tasks t
-             JOIN task_completions c ON c.task_id = t.id AND c.user_id = :user_id
+             JOIN task_completions c ON c.task_id = t.id AND c.user_id = ?
              WHERE t.node_id IN ($placeholders) AND t.is_required
              GROUP BY t.node_id"
         );

@@ -51,7 +51,37 @@ final class TaskRepository
     }
 
     /**
-     * Required-task counts per node — 1 query (IN list).
+     * The user's completed tasks for the given nodes, 1 query (IN list).
+     *
+     * @param list<string> $nodeIds
+     * @return list<array{task_id: string, node_id: string, is_required: bool}>
+     */
+    public function completedTasksForUser(string $userId, array $nodeIds): array
+    {
+        if ($nodeIds === []) {
+            return [];
+        }
+
+        $placeholders = implode(', ', array_fill(0, count($nodeIds), '?'));
+        $stmt = $this->db->prepare(
+            "SELECT t.id AS task_id, t.node_id, t.is_required
+             FROM tasks t
+             JOIN task_completions c ON c.task_id = t.id AND c.user_id = ?
+             WHERE t.node_id IN ($placeholders)"
+        );
+        $stmt->execute(array_merge([$userId], $nodeIds));
+
+        $rows = $stmt->fetchAll() ?: [];
+        foreach ($rows as &$row) {
+            $row['is_required'] = (bool) $row['is_required'];
+        }
+        unset($row);
+
+        return $rows;
+    }
+
+    /**
+     * Required-task counts per node, 1 query (IN list).
      *
      * @param list<string> $nodeIds
      * @return array<string, int> node id => required task count

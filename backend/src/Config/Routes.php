@@ -8,8 +8,11 @@ use CareerCampus\Http\Controllers\AdminController;
 use CareerCampus\Http\Controllers\AuthController;
 use CareerCampus\Http\Controllers\HealthController;
 use CareerCampus\Http\Controllers\MeController;
+use CareerCampus\Http\Controllers\NodeController;
+use CareerCampus\Http\Controllers\RoadmapController;
 use CareerCampus\Http\Middleware\AdminMiddleware;
 use CareerCampus\Http\Middleware\AuthMiddleware;
+use CareerCampus\Http\Middleware\OptionalAuthMiddleware;
 use CareerCampus\Http\Middleware\RateLimitMiddleware;
 use Psr\Container\ContainerInterface;
 use Slim\App;
@@ -41,6 +44,11 @@ final class Routes
         $app->group('/api/v1/auth', [self::class, 'authRoutes'])
             ->add($c->get(RateLimitMiddleware::class));
 
+        // Content (Phase 2) — public, personalised when a valid Bearer
+        // token is present (user_id attribute set or absent).
+        $app->group('/api/v1', [self::class, 'contentRoutes'])
+            ->add($c->get(OptionalAuthMiddleware::class));
+
         // Account — authenticated.
         $app->group('/api/v1', [self::class, 'accountRoutes'])
             ->add($c->get(AuthMiddleware::class));
@@ -62,6 +70,16 @@ final class Routes
         $routes->post('/login', [AuthController::class, 'login']);
         $routes->post('/refresh', [AuthController::class, 'refresh']);
         $routes->post('/logout', [AuthController::class, 'logout']);
+    }
+
+    /**
+     * @param RouteCollectorProxyInterface<ContainerInterface> $routes
+     */
+    public static function contentRoutes(RouteCollectorProxyInterface $routes): void
+    {
+        $routes->get('/roadmaps', [RoadmapController::class, 'index']);
+        $routes->get('/roadmaps/{slug}', [RoadmapController::class, 'show']);
+        $routes->get('/nodes/{id}', [NodeController::class, 'show']);
     }
 
     /**
