@@ -31,9 +31,10 @@ Run from the repo root (Makefile targets exist too for CI/Linux — `make <targe
 | `npm run setup` | `docker compose build` + `composer install` (inside container) |
 | `npm run up` / `npm run down` | Start / stop the stack |
 | `npm run migrate` | Apply pending SQL migrations (`bin/migrate.php`) |
-| `npm run seed` | Load seed data (arrives in Phase 2) |
+| `npm run seed` | Load seed data (roadmaps, badges, dev users — idempotent) |
 | `npm run test` | Backend PHPUnit (in container) + frontend Vitest (host) |
 | `npm run lint` | PHPStan L6 + PHP-CS-Fixer + ESLint + Prettier |
+| `node scripts/capture-screenshots.mjs` | Capture QA screenshots (Playwright; install with `npm i --no-save --no-package-lock playwright` + `npx -y playwright install chromium`) |
 
 ## Layout
 
@@ -61,5 +62,6 @@ Run from the repo root (Makefile targets exist too for CI/Linux — `make <targe
 
 ## Status
 
-Phase 0 (foundation & design system) and Phase 1 (authentication & accounts)
-are complete — see [`docs/PROGRESS.md`](./docs/PROGRESS.md).
+Phase 0 (foundation & design system), Phase 1 (authentication & accounts) and
+Phase 2 (seeded content, landing, catalog and the Trail Map) are complete —
+see [`docs/PROGRESS.md`](./docs/PROGRESS.md).

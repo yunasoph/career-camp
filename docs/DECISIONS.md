@@ -88,3 +88,52 @@ Running log of decisions made where `spec.md` was ambiguous or silent (spec §15
   parses the `Cookie` header — tests set cookie params explicitly with
   `withCookieParams()` (production gets them from `$_COOKIE` via
   `createFromGlobals()`).
+
+## Phase 2 — Content & the Trail Map (read-only)
+
+- **Migration 002 is the full §17.7 delta, named `002_differentiators.sql`.**
+  `phases.md` asked for `002_theme_landmark.sql` (only `roadmaps.theme` +
+  `nodes.landmark`), but spec §17.7 defines the complete schema delta and is
+  authoritative. Applying the whole delta now (theme, landmark,
+  `test_out_quiz`, `est_minutes`, `task_completions.source`,
+  `users.handle`/`is_public`, plus the `user_goals`, `project_submissions`,
+  `skills`, `node_skills`, `node_reviews` tables) avoids a Phase 5
+  re-migration and honours §17.8's "design for, don't build yet".
+- **Guest node state is `null`, not a fifth state.** Spec §4 defines exactly
+  four computed states, and the roadmap reads are public (spec §7). For
+  guests, `GET /roadmaps/{slug}` returns `state: null` on every node; the
+  frontend renders `null` as the neutral preview look (full colour, no
+  fog/lock). No client ever sees a state outside the four in §4.
+- **`OptionalAuthMiddleware` for public-but-personalised reads.** No
+  `Authorization` header → request passes through as a guest; a PRESENT but
+  invalid Bearer token → 401, because the client's silent-refresh flow
+  (spec §9.3) needs that signal to refresh and retry once. Used on
+  `GET /roadmaps`, `GET /roadmaps/{slug}` and `GET /nodes/{id}`.
+- **Seeder idempotency strategy.** Badges: `ON CONFLICT (code) DO NOTHING`.
+  Roadmaps: upserted by `slug` — meta (title, summary, theme, …) refreshed,
+  node tree untouched. Node tree: inserted only while the roadmap has zero
+  nodes, so re-seeding never wipes learner progress. Dev users:
+  `ON CONFLICT (email) DO NOTHING`; the seeder exits 1 with a message when
+  `APP_ENV=production` (spec §10). Verified by running `npm run seed` twice:
+  row counts identical (roadmaps 2, nodes 22, prerequisites 26, tasks 79,
+  badges 12, users 2).
+- **Query-count proof via `CountingPdo`.** `RoadmapDetailTest` swaps the
+  app's PDO for a subclass that counts `prepare()` calls (it stays a real
+  PDO on the same DSN, so behaviour is unchanged) and asserts the roadmap
+  detail stays inside its budget: ≤5 prepared statements authed
+  (roadmap, nodes, edges, tasks, enrollment+per-node counts) and 4 for
+  guests. Satisfies spec §14 "verify ≤ 5 queries per request".
+- **Screenshot tooling: Playwright without a package.json change.**
+  `scripts/capture-screenshots.mjs` (repo root) drives Playwright Chromium to
+  capture the three public pages × 3 viewports × 2 themes →
+  `docs/screenshots/phase-2/` (18 PNGs, exit-gate visual record). Playwright
+  is installed with `npm i --no-save --no-package-lock playwright` at the
+  repo root — `node_modules/` is gitignored and no manifest or lockfile
+  changes, keeping it a QA tool rather than an app dependency. The theme is
+  seeded via an `addInitScript` that writes the zustand-persist value
+  (`careercampus-theme`) before app boot, so the first paint is already in
+  the right theme.
+- **Reduced-motion: skeleton shimmer stops too.** `.animate-checker-shimmer`
+  (pixel skeleton shimmer, spec §9A.4/§9A.9) is added to the
+  `prefers-reduced-motion: reduce` rule alongside `.trail-ants`, so no
+  decorative animation runs for reduced-motion users.

@@ -80,7 +80,7 @@ All four are documented in `docs/DECISIONS.md`.
 - Tag: `phase-1-done`. PR opened per `git.md` workflow — stop for review.
 
 ## Phase 2 — Content & the Trail Map (read-only)
-**Status: IN PROGRESS** — plan at `docs/phases/PHASE_2_PLAN.md`, branch `phase-2-trails` (based on `phase-1-auth`)
+**Status: COMPLETE** (started 2026-10-17, exit gate passed 2026-10-18) — plan at `docs/phases/PHASE_2_PLAN.md`, branch `phase-2-trails` (based on `phase-1-auth`)
 
 ### Build checklist
 - [x] Migration `002_differentiators.sql` (full §17.7 delta: theme, landmark, est_minutes, handle/is_public, 5 new tables)
@@ -91,10 +91,51 @@ All four are documented in `docs/DECISIONS.md`.
 - [x] Catalog: search + difficulty filter, theme-tinted landmark cards, pixel-star difficulty
 - [x] `RoadmapPage`: React Flow Trail Map (dotted trail edges, landmarks, fog/lantern/ring/flag states), node drawer / mobile bottom sheet, a11y
 - [x] Loading skeletons + Biscuit empty/error states
-- [ ] Screenshots → `docs/screenshots/phase-2/` (3 pages × 375/768/1280 × light/dark = 18)
+- [x] Screenshots → `docs/screenshots/phase-2/` (3 pages × 375/768/1280 × light/dark = 18)
+- [x] Reduced-motion: skeleton checker shimmer added to the `prefers-reduced-motion` rule (`.animate-checker-shimmer`)
 
-### Exit gate results
-(pending)
+### Exit gate results (2026-10-18, Docker stack live, branch `phase-2-trails`)
+- [x] `npm run seed` twice → no duplicates. Row counts identical after both runs:
+      roadmaps 2, nodes 22, node_prerequisites 26, tasks 79, badges 12, users 2,
+      skills 0, node_skills 0.
+- [x] `NodeStateResolver` unit tests: `OK` — 8 tests covering locked / available /
+      in_progress / completed, unlock chains, diamond DAG, state boundaries,
+      cycle safety, and a 300-node stress run (part of the full suite below).
+- [x] Query-count test: `RoadmapDetailTest::testAuthedDetailUsesAtMostFiveQueries`
+      (`CountingPdo` counts `prepare()`) — authed detail ≤5 queries, guests 4.
+- [x] Screenshots: 18 PNGs in `docs/screenshots/phase-2/` via
+      `scripts/capture-screenshots.mjs` (Playwright Chromium, theme seeded via
+      init script). Visual review passed: parchment Trail Map with dotted-trail
+      edges and landmark sprites (no default-flowchart look), dusk hero variant,
+      catalog theme tints; guest preview state renders neutral (no fog/lock).
+      Minor polish noted for Phase 6: the React Flow mini-map panel looks
+      unstyled on the parchment background; nav bar wraps to two rows at 375px.
+- [x] Full gate from the root: `npm run lint` → PHPStan L6 `[OK] No errors`,
+      PHP-CS-Fixer `0 files to fix`, ESLint + Prettier clean; `npm run test` →
+      backend PHPUnit `OK (59 tests, 1824 assertions)`, frontend Vitest
+      `13 files / 60 tests passed`; `tsc --noEmit` clean.
+
+### Issues found & fixed while closing the gate
+- Stray untracked `frontend/scripts/capture-screenshots.mjs` from an earlier
+  session sat at the wrong path (inside `frontend/`, outside the repo-root
+  `scripts/` the plan specifies) and broke `eslint .`; removed.
+- The skeleton checker shimmer was not stopped under
+  `prefers-reduced-motion: reduce` — added `.animate-checker-shimmer` to the
+  reduced-motion rule (spec §9A.9).
 
 ### Handoff
-(pending)
+- Read-only content flow is done: landing → catalog → Trail Map, guest and
+  (stateless) preview. Phase 3 slots straight in: enroll endpoints
+  (`POST/DELETE /roadmaps/{slug}/enroll`, `GET /me/enrollments`),
+  `ProgressService::completeTask`, XP toast + level-up modal, dashboard.
+  The Trail Map already renders all four states from `GET /roadmaps/{slug}`;
+  completion work invalidates `['roadmap', slug]`, `['me']`, `['quests','today']`.
+- `NodeStateResolver` is shared with the admin cycle check in Phase 5
+  (memoized DFS, cycle-safe).
+- Migration 002 already landed the whole §17.7 delta — Phase 5 differentiators
+  (test-out, project submissions, rusty nodes, passport, overlap) need no
+  further schema work.
+- QA tooling: `scripts/capture-screenshots.mjs` is reusable for later phases
+  (point `PAGES` at the new routes; bump the output dir to `phase-N`).
+- Dev DB contains the seeded content plus Phase 1 smoke users — dev data only.
+- Tag: `phase-2-done`. PR opened per `git.md` workflow — stop for review.
