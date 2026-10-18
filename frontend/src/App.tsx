@@ -10,6 +10,7 @@ import { NotFoundPage } from '@/pages/NotFoundPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { RegisterPage } from '@/pages/RegisterPage';
 import { RoadmapCatalogPage } from '@/pages/RoadmapCatalogPage';
+import { RoadmapPage } from '@/pages/RoadmapPage';
 import { GuestOnly, RequireAuth } from '@/routes/guards';
 import { applyTheme, useThemeStore } from '@/store/themeStore';
 
@@ -33,6 +34,7 @@ export default function App(): JSX.Element {
                 <Routes>
                     <Route path="/" element={<HomePage />} />
                     <Route path="/roadmaps" element={<RoadmapCatalogPage />} />
+                    <Route path="/roadmaps/:slug" element={<RoadmapPage />} />
                     <Route
                         path="/dashboard"
                         element={<ComingSoonPage title="Quests" note="Your notice board opens in Phase 4." />}

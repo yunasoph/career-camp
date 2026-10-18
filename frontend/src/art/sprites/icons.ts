@@ -1,3 +1,4 @@
+import type { TaskType } from '@/api/types';
 import type { SpriteData } from '@/art/PixelSprite';
 
 /** 8–16px-grid icon sprites (spec §9A.6). Palettes use CSS variables → auto theming. */
@@ -90,6 +91,42 @@ export const MOON: SpriteData = {
     rows: ['...bbb..', '..b...b.', '.b......', 'b.......', 'b.......', '.b......', '..b...b.', '...bbb..'],
 };
 
+/** Task-type sprites (8px grid) — reading/video/practice/quiz/project (spec §9A.6). */
+
+export const BOOK: SpriteData = {
+    palette: { b: 'var(--ink)', w: 'var(--marigold)' },
+    rows: ['.bbbbbb.', 'bwwbwwwb', 'bwwbwwwb', 'bwwbwwwb', 'bwwbwwwb', '.bbbbbb.'],
+};
+
+export const CLAPPER: SpriteData = {
+    palette: { c: 'var(--ink)', w: 'var(--marigold)' },
+    rows: ['cwcwcwcw', 'wcwcwcwc', 'cccccccc', 'wwwwwwww', 'wwwwwwww', 'wwwwwwww', 'wwwwwwww', 'cccccccc'],
+};
+
+export const QUESTION: SpriteData = {
+    palette: { q: 'var(--marigold)' },
+    rows: ['.qqqq...', 'q....q..', '....qq..', '...qq...', '...q....', '........', '...q....', '...q....'],
+};
+
+export const HAMMER: SpriteData = {
+    palette: { h: 'var(--marigold)', s: 'var(--ink)' },
+    rows: ['hhhhhhhh', 'hhhhhhhh', 'ssssssss', '..ssss..', '...ss...', '...ss...', '...ss...', '...ss...'],
+};
+
+export const PENCIL: SpriteData = {
+    palette: { e: 'var(--berry)', p: 'var(--marigold)', y: 'var(--fog)' },
+    rows: ['...ee...', '...ee...', '...pp...', '...pp...', '...pp...', '...pp...', '...yyy..', '....y...'],
+};
+
+/** Task type → sprite (drawer task list). */
+export const TASK_TYPE_ICONS: Record<TaskType, SpriteData> = {
+    reading: BOOK,
+    video: CLAPPER,
+    practice: PENCIL,
+    quiz: QUESTION,
+    project: HAMMER,
+};
+
 /** Gallery/dev helper: every icon in one record. */
 export const ICONS: Record<string, SpriteData> = {
     flame: FLAME,
@@ -101,4 +138,9 @@ export const ICONS: Record<string, SpriteData> = {
     cap: CAP,
     sun: SUN,
     moon: MOON,
+    book: BOOK,
+    clapper: CLAPPER,
+    question: QUESTION,
+    hammer: HAMMER,
+    pencil: PENCIL,
 };

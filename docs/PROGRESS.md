@@ -88,9 +88,9 @@ All four are documented in `docs/DECISIONS.md`.
 - [x] `GET /roadmaps`, `GET /roadmaps/{slug}` (≤5 queries), `GET /nodes/{id}` (quiz answers stripped)
 - [x] `NodeStateResolver` (O(nodes+edges), memoized DFS, cycle-safe) + unit tests (8 tests: 4 states, chains, diamond, boundaries, cycles, 300-node stress)
 - [x] Landing: `CampusScene` hero (procedural, 3 parallax layers, fade mask, dusk variant), path picker, how-it-works stickers, featured paths, passport teaser, horizon footer
-- [ ] Catalog: search + difficulty filter, theme-tinted landmark cards, pixel-star difficulty
-- [ ] `RoadmapPage`: React Flow Trail Map (dotted trail edges, landmarks, fog/lantern/ring/flag states), node drawer / mobile bottom sheet, a11y
-- [ ] Loading skeletons + Biscuit empty/error states
+- [x] Catalog: search + difficulty filter, theme-tinted landmark cards, pixel-star difficulty
+- [x] `RoadmapPage`: React Flow Trail Map (dotted trail edges, landmarks, fog/lantern/ring/flag states), node drawer / mobile bottom sheet, a11y
+- [x] Loading skeletons + Biscuit empty/error states
 - [ ] Screenshots → `docs/screenshots/phase-2/` (3 pages × 375/768/1280 × light/dark = 18)
 
 ### Exit gate results

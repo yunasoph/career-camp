@@ -66,3 +66,86 @@ export interface RoadmapSummary {
 export interface RoadmapListResponse {
     roadmaps: RoadmapSummary[];
 }
+
+/** Computed node state (spec §4). Guests receive `null` (neutral preview). */
+export type NodeState = 'locked' | 'available' | 'in_progress' | 'completed';
+
+/** Task kinds in the seeded content. */
+export type TaskType = 'reading' | 'video' | 'practice' | 'quiz' | 'project';
+
+/** Client-safe quiz question — correct_index/explanation are stripped server-side (spec §6.1). */
+export interface QuizQuestion {
+    id: string;
+    prompt: string;
+    options: string[];
+}
+
+/** One task (spec §7) — from GET /nodes/{id}. */
+export interface TaskDto {
+    id: string;
+    type: TaskType;
+    title: string;
+    description: string;
+    resource_url: string | null;
+    xp: number;
+    is_required: boolean;
+    sort_order: number;
+    est_minutes: number;
+    completed: boolean;
+    quiz?: { questions: QuizQuestion[] };
+}
+
+/** Trail-map node (from GET /roadmaps/{slug}). */
+export interface RoadmapNode {
+    id: string;
+    slug: string;
+    title: string;
+    description: string;
+    landmark: string | null;
+    pos_x: number;
+    pos_y: number;
+    sort_order: number;
+    state: NodeState | null;
+    completed_tasks: number;
+    total_tasks: number;
+}
+
+/** Trail-map edge: prerequisite_id → node_id. */
+export interface RoadmapEdge {
+    node_id: string;
+    prerequisite_id: string;
+}
+
+/** Roadmap head in the trail-map response (no node/task counts). */
+export interface RoadmapHead {
+    id: string;
+    slug: string;
+    title: string;
+    summary: string;
+    icon: string | null;
+    difficulty: RoadmapDifficulty;
+    est_hours: number | null;
+    theme: RoadmapTheme;
+}
+
+/** Body of GET /roadmaps/{slug} — public, personalised when authed. */
+export interface RoadmapDetail {
+    roadmap: RoadmapHead;
+    nodes: RoadmapNode[];
+    edges: RoadmapEdge[];
+    /** Present only when an authenticated user is attached. */
+    enrolled?: boolean;
+    percent_complete?: number;
+}
+
+/** Node head from GET /nodes/{id} — adds prerequisite ids. */
+export interface NodeDetail extends RoadmapNode {
+    roadmap_slug: string;
+    prerequisite_ids: string[];
+}
+
+/** Body of GET /nodes/{id}. */
+export interface NodeDetailResponse {
+    node: NodeDetail;
+    tasks: TaskDto[];
+}

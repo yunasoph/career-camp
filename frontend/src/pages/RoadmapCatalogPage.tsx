@@ -31,15 +31,15 @@ export function RoadmapCatalogPage(): JSX.Element {
     const [difficulty, setDifficulty] = useState<DifficultyFilter>('all');
     const [search, setSearch] = useState('');
 
-    const roadmaps = data?.roadmaps ?? [];
     const filtered = useMemo(() => {
+        const list = data?.roadmaps ?? [];
         const q = search.trim().toLowerCase();
-        return roadmaps.filter((roadmap) => {
+        return list.filter((roadmap) => {
             if (difficulty !== 'all' && roadmap.difficulty !== difficulty) return false;
             if (q && !`${roadmap.title} ${roadmap.summary}`.toLowerCase().includes(q)) return false;
             return true;
         });
-    }, [roadmaps, difficulty, search]);
+    }, [data?.roadmaps, difficulty, search]);
 
     const clearFilters = (): void => {
         setSearch('');
