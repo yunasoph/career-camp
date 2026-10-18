@@ -7,6 +7,7 @@ import { buildCampusScene, type SceneVariant } from './scene';
 function usePrefersReducedMotion(): boolean {
     const [reduced, setReduced] = useState(false);
     useEffect(() => {
+        if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
         const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
         setReduced(mq.matches);
         const onChange = (e: MediaQueryListEvent): void => setReduced(e.matches);

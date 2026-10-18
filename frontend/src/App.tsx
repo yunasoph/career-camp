@@ -26,7 +26,7 @@ export default function App(): JSX.Element {
     }, []);
 
     return (
-        <div className="relative z-10 flex min-h-screen flex-col">
+        <div className="relative z-10 flex min-h-screen flex-col overflow-x-clip">
             <NavBar />
             <main className="mx-auto w-full max-w-6xl flex-1 px-4">
                 <Routes>

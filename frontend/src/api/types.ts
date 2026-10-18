@@ -38,3 +38,31 @@ export interface ApiErrorEnvelope {
         details?: Record<string, string[]>;
     };
 }
+
+/** Difficulty of a roadmap (content API, spec §7). */
+export type RoadmapDifficulty = 'beginner' | 'intermediate' | 'advanced';
+
+/** Free-form styling hints, e.g. {"tint":"ember","landmarks":["workshop","tower"]}. */
+export interface RoadmapTheme {
+    tint?: string;
+    landmarks?: string[];
+}
+
+/** One published roadmap — list shape (GET /roadmaps). */
+export interface RoadmapSummary {
+    id: string;
+    slug: string;
+    title: string;
+    summary: string;
+    icon: string | null;
+    difficulty: RoadmapDifficulty;
+    est_hours: number | null;
+    node_count: number;
+    task_count: number;
+    theme: RoadmapTheme;
+}
+
+/** Body of GET /roadmaps. */
+export interface RoadmapListResponse {
+    roadmaps: RoadmapSummary[];
+}
