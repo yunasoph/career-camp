@@ -87,7 +87,7 @@ All four are documented in `docs/DECISIONS.md`.
 - [x] Idempotent seeder + seed JSON: 12 badges, Frontend Developer (12 nodes, 49 tasks, 7 quizzes) + Data Analyst (10 nodes, 30 tasks, 3 quizzes), dev users, production guard
 - [x] `GET /roadmaps`, `GET /roadmaps/{slug}` (≤5 queries), `GET /nodes/{id}` (quiz answers stripped)
 - [x] `NodeStateResolver` (O(nodes+edges), memoized DFS, cycle-safe) + unit tests (8 tests: 4 states, chains, diamond, boundaries, cycles, 300-node stress)
-- [ ] Landing: `CampusScene` hero (procedural, 3 parallax layers, fade mask, dusk variant), path picker, how-it-works stickers, featured paths, passport teaser, horizon footer
+- [x] Landing: `CampusScene` hero (procedural, 3 parallax layers, fade mask, dusk variant), path picker, how-it-works stickers, featured paths, passport teaser, horizon footer
 - [ ] Catalog: search + difficulty filter, theme-tinted landmark cards, pixel-star difficulty
 - [ ] `RoadmapPage`: React Flow Trail Map (dotted trail edges, landmarks, fog/lantern/ring/flag states), node drawer / mobile bottom sheet, a11y
 - [ ] Loading skeletons + Biscuit empty/error states

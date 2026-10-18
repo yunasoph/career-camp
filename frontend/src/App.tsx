@@ -9,6 +9,7 @@ import { LoginPage } from '@/pages/LoginPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { RegisterPage } from '@/pages/RegisterPage';
+import { RoadmapCatalogPage } from '@/pages/RoadmapCatalogPage';
 import { GuestOnly, RequireAuth } from '@/routes/guards';
 import { applyTheme, useThemeStore } from '@/store/themeStore';
 
@@ -31,12 +32,7 @@ export default function App(): JSX.Element {
             <main className="mx-auto w-full max-w-6xl flex-1 px-4">
                 <Routes>
                     <Route path="/" element={<HomePage />} />
-                    <Route
-                        path="/roadmaps"
-                        element={
-                            <ComingSoonPage title="Career paths" note="The trail catalog opens in Phase 2." />
-                        }
-                    />
+                    <Route path="/roadmaps" element={<RoadmapCatalogPage />} />
                     <Route
                         path="/dashboard"
                         element={<ComingSoonPage title="Quests" note="Your notice board opens in Phase 4." />}

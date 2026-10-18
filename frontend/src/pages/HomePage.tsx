@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import type { CSSProperties } from 'react';
 import { useThemeStore } from '@/store/themeStore';
 import { useRoadmaps } from '@/api/useRoadmaps';
-import type { RoadmapDifficulty, RoadmapSummary } from '@/api/types';
+import type { RoadmapSummary } from '@/api/types';
 import { CampusScene } from '@/art/CampusScene';
 import type { SceneVariant } from '@/art/scene';
 import { PixelSprite } from '@/art/PixelSprite';
@@ -10,7 +10,9 @@ import { BISCUIT_IDLE_A } from '@/art/sprites/biscuit';
 import { LANDMARKS } from '@/art/sprites/landmarks';
 import { TREE, SIGNPOST } from '@/art/sprites/nature';
 import { CAP, FLAG, LOCK, SHIELD, STAR } from '@/art/sprites/icons';
+import { landmarkSprite } from '@/lib/roadmapArt';
 import { Chip } from '@/components/ui/Chip';
+import { DifficultyPill } from '@/components/ui/DifficultyPill';
 import { Skeleton } from '@/components/ui/Skeleton';
 
 /** Fade the panorama into paper — left, top and bottom edges (spec §9A.10). */
@@ -22,24 +24,6 @@ const PANORAMA_MASK: CSSProperties = {
         'linear-gradient(to right, transparent, black 14%), linear-gradient(to top, transparent, black 16%), linear-gradient(to bottom, transparent, black 20%)',
     maskComposite: 'intersect',
 };
-
-const DIFFICULTY_TONE: Record<RoadmapDifficulty, string> = {
-    beginner: 'bg-moss text-paper',
-    intermediate: 'bg-marigold text-ink',
-    advanced: 'bg-ember text-paper',
-};
-
-function difficultyPill(difficulty: RoadmapDifficulty): string {
-    return `shrink-0 rounded-pill px-2.5 py-1 font-pixel text-[10px] uppercase ${DIFFICULTY_TONE[difficulty]}`;
-}
-
-/** First themed landmark sprite for a roadmap (day/dusk); undefined if none. */
-function landmarkSprite(roadmap: RoadmapSummary, variant: SceneVariant, index = 0) {
-    const names: string[] = Array.isArray(roadmap.theme.landmarks) ? roadmap.theme.landmarks : [];
-    const name = names[index] ?? names[0];
-    const art = name ? LANDMARKS[name] : undefined;
-    return art ? art[variant] : undefined;
-}
 
 /**
  * Landing page (spec §9A.10) — full-bleed campus panorama hero, path picker,
@@ -156,7 +140,7 @@ function PathCard({ roadmap, variant }: { roadmap: RoadmapSummary; variant: Scen
                     </span>
                     <span className="mt-0.5 block truncate text-xs text-ink-soft">{roadmap.summary}</span>
                 </span>
-                <span className={difficultyPill(roadmap.difficulty)}>{roadmap.difficulty}</span>
+                <DifficultyPill difficulty={roadmap.difficulty} />
             </Link>
         </li>
     );
@@ -297,7 +281,7 @@ function FeaturedCard({
             <h3 className="font-display mt-3 text-xl font-bold leading-tight">{roadmap.title}</h3>
             <p className="mt-1.5 text-sm leading-relaxed text-ink-soft">{roadmap.summary}</p>
             <div className="mt-auto flex flex-wrap items-center gap-2 pt-4">
-                <span className={difficultyPill(roadmap.difficulty)}>{roadmap.difficulty}</span>
+                <DifficultyPill difficulty={roadmap.difficulty} />
                 <Chip
                     icon={<PixelSprite sprite={FLAG} scale={1} />}
                     value={roadmap.node_count}
