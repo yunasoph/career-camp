@@ -112,7 +112,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .trail-ants {
+    /* Trail-ants march + pixel-checker skeleton shimmer (spec §9A.9). */
+    .trail-ants,
+    .animate-checker-shimmer {
         animation: none;
     }
 }
