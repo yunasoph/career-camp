@@ -152,3 +152,23 @@ Running log of decisions made where `spec.md` was ambiguous or silent (spec §15
   tall) so same-column nodes never overlap — verified with a Playwright
   pairwise node-rect intersection check (0 overlaps on both trails) and a
   left/right margin check (equal gaps).
+- **Dev API perf: optimized autoloader + opcache revalidate_freq 60 (perf fix,
+  2026-10-19).** User reported slow page loads ("paths take time to load").
+  Measured: every `GET /api/v1/*` took **0.6–2.1s** for 1–5 trivial queries —
+  the DB was never the problem. Root cause: on this Windows dev box the app
+  source is a 9P bind mount (./backend:/app), and each request paid two
+  cross-boundary filesystem costs: (1) the default PSR-4 autoloader ran
+  `file_exists` probes for ~100 classes per request (steady ~0.6s), and (2)
+  stock opcache (`revalidate_freq=2`) re-stat'ed every cached file every ~2s,
+  spiking requests to ~2s. Fixes (dev-only, no app code touched):
+  `composer dump-autoload -o` (optimized classmap — 3427 classes, no per-request
+  probing; now part of `npm run setup` / `make setup`) and
+  `backend/php-opcache-dev.ini` (mounted as `conf.d/zz-opcache-dev.ini`,
+  `revalidate_freq=60` — a PHP code change takes up to 60s to apply, or
+  `docker compose restart php` to apply instantly). Result: **~21–38ms**
+  per request (first hit on a freshly forked FPM worker is still ~1s cold).
+  The remaining perceived load is Vite dev mode: the first page load after a
+  container restart re-transforms every module from the 9P mount (~3.8s);
+  later loads are ~0.8s (dev has no bundle). A production build (Phase 6)
+  removes both costs; not changed now because the plan's dev workflow is
+  `npm run dev` in-container.

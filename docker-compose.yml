@@ -27,6 +27,11 @@ services:
       APP_ENV: ${APP_ENV:-development}
     volumes:
       - ./backend:/app
+      # Dev opcache tuning (revalidate_freq 60): on the Windows/WSL2 9P
+      # bind mount, the stock 2s revalidation stat'ed every source file and
+      # made API requests spike to ~2s. 'zz-' sorts after the stock conf.d
+      # files so these values win.
+      - ./backend/php-opcache-dev.ini:/usr/local/etc/php/conf.d/zz-opcache-dev.ini:ro
     depends_on:
       db:
         condition: service_healthy

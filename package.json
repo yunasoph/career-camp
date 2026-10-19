@@ -3,7 +3,7 @@
   "private": true,
   "description": "Gamified career roadmaps — React 18 + TypeScript, PHP 8.3 + Slim 4, PostgreSQL 16",
   "scripts": {
-    "setup": "docker compose build && docker compose run --rm php composer install",
+    "setup": "docker compose build && docker compose run --rm php composer install && docker compose run --rm php composer dump-autoload -o",
     "up": "docker compose up -d",
     "down": "docker compose down",
     "build": "docker compose build",

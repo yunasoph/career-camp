@@ -14,13 +14,20 @@ Spec: [`spec.md`](./spec.md) · Phases: [`phases.md`](./phases.md)
 
 ```powershell
 copy .env.example .env     # then set a real JWT_SECRET (see .env.example)
-npm run setup              # builds images + installs PHP deps (in container)
+npm run setup              # builds images + installs PHP deps + optimized autoloader (in container)
 npm run up                 # starts db, php-fpm, nginx, Vite dev server
 ```
 
 Then open **http://localhost:5173** (API health: `http://localhost:8080/api/v1/health`).
 
 > **Windows:** Docker Desktop with the WSL 2 backend is required (`wsl --install`).
+>
+> Windows performance note: app source is served through the slow
+> Windows→WSL2 file bridge, so the **first** page load after `npm run up`
+> or a code edit takes a few seconds (Vite dev server transforming every
+> module); later loads are fast. If the API ever feels slow again (e.g.
+> after `composer install`/`update`), re-run `npm run setup` to regenerate
+> the optimized autoloader — see `docs/DECISIONS.md` (perf, 2026-10-19).
 
 ## Commands
 
@@ -28,7 +35,7 @@ Run from the repo root (Makefile targets exist too for CI/Linux — `make <targe
 
 | Command | What it does |
 |---|---|
-| `npm run setup` | `docker compose build` + `composer install` (inside container) |
+| `npm run setup` | `docker compose build` + `composer install` + optimized autoloader (inside container) |
 | `npm run up` / `npm run down` | Start / stop the stack |
 | `npm run migrate` | Apply pending SQL migrations (`bin/migrate.php`) |
 | `npm run seed` | Load seed data (roadmaps, badges, dev users — idempotent) |

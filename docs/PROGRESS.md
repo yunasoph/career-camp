@@ -153,6 +153,18 @@ All four are documented in `docs/DECISIONS.md`.
   constant zoom 1.0, vertical and horizontal); pinch/ctrl+wheel still zooms,
   drag pans, `minZoom` raised to 0.3 so the trail can't be zoomed unreadable,
   "Fit view" shows the full trail (2026-10-19).
+- Slow page loads fixed (user: "paths take time to load"). The API, not the
+  frontend, was the bottleneck: every `GET /api/v1/*` took 0.6–2.1s for 1–5
+  trivial queries, because on this Windows box the PHP source is a 9P
+  bind mount — the PSR-4 autoloader probed ~100 class files per request and
+  stock opcache re-stat'ed them all every 2s. Fixed dev-only:
+  `composer dump-autoload -o` (optimized classmap, now part of
+  `npm run setup`/`make setup`) + `backend/php-opcache-dev.ini`
+  (`revalidate_freq=60`, mounted into the php container). Measured before →
+  after: **~0.6–2.1s → ~21–38ms** per request. Remaining load is Vite dev
+  mode itself (first page after a container restart ~3.8s, later loads ~0.8s;
+  no dev bundle) — a production build in Phase 6 removes it. Backend gate
+  still green: 59 tests / 1824 assertions (2026-10-19).
 
 ### Handoff
 - Read-only content flow is done: landing → catalog → Trail Map, guest and
