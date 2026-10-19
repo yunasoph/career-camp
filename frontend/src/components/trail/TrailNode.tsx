@@ -89,7 +89,7 @@ export function TrailNode({ id, data, selected }: NodeProps<TrailFlowNode>): JSX
                 aria-label={label}
                 onClick={open}
                 onKeyDown={onKeyDown}
-                className={`sticker relative w-40 cursor-pointer rounded-2xl bg-card px-3 pb-3 pt-4 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-marigold ${
+                className={`sticker relative w-48 cursor-pointer rounded-2xl bg-card px-3 pb-3 pt-4 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-marigold ${
                     selected ? 'ring-2 ring-marigold' : ''
                 }`}
             >
@@ -122,7 +122,9 @@ export function TrailNode({ id, data, selected }: NodeProps<TrailFlowNode>): JSX
                         </span>
                     )}
                 </div>
-                <p className="font-display mt-2 line-clamp-2 text-sm font-bold leading-tight">{node.title}</p>
+                <p className="font-display mt-2 line-clamp-2 text-base font-bold leading-tight">
+                    {node.title}
+                </p>
                 <p className="mt-1.5">
                     <span className="inline-flex items-center gap-1 rounded-pill bg-paper-2 px-2 py-0.5 font-pixel text-[10px] text-ink-soft">
                         {node.completed_tasks}/{node.total_tasks}

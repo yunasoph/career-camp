@@ -34,7 +34,7 @@ vi.mock('@xyflow/react', () => ({
     ),
     MiniMap: () => null,
     ReactFlowProvider: ({ children }: { children: ReactNode }) => <>{children}</>,
-    useReactFlow: () => ({ fitView: vi.fn() }),
+    useReactFlow: () => ({ fitView: vi.fn(), setCenter: vi.fn() }),
     Handle: () => null,
     Position: { Top: 'Top', Bottom: 'Bottom' },
 }));

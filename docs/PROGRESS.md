@@ -108,8 +108,9 @@ All four are documented in `docs/DECISIONS.md`.
       init script). Visual review passed: parchment Trail Map with dotted-trail
       edges and landmark sprites (no default-flowchart look), dusk hero variant,
       catalog theme tints; guest preview state renders neutral (no fog/lock).
-      Minor polish noted for Phase 6: the React Flow mini-map panel looks
-      unstyled on the parchment background; nav bar wraps to two rows at 375px.
+      Trail-map frames refreshed 2026-10-19 after the trailhead-zoom + node
+      drawer fix (below).
+      Minor polish noted for Phase 6: nav bar wraps to two rows at 375px.
 - [x] Full gate from the root: `npm run lint` → PHPStan L6 `[OK] No errors`,
       PHP-CS-Fixer `0 files to fix`, ESLint + Prettier clean; `npm run test` →
       backend PHPUnit `OK (59 tests, 1824 assertions)`, frontend Vitest
@@ -122,6 +123,19 @@ All four are documented in `docs/DECISIONS.md`.
 - The skeleton checker shimmer was not stopped under
   `prefers-reduced-motion: reduce` — added `.animate-checker-shimmer` to the
   reduced-motion rule (spec §9A.9).
+- Trail Map opened at fit-all zoom — a 12-node trail squashes to ~0.4 at
+  laptop sizes, so node titles were unreadable. Replaced the auto
+  fit-to-view with a trailhead start: the map now opens at 0.9 zoom centred
+  on the first stop (guests) or the learner's current node (authed); pan/zoom
+  to explore, "Fit view" for the full map, MiniMap for orientation. Node
+  tiles grew `w-40` → `w-48` with `text-base` titles; the MiniMap got the
+  sticker border, rounded corners and a fixed 144×100 size (2026-10-19).
+- The node drawer was anchored at `top: 0`, hiding the node title behind the
+  floating nav bar. It is now a floating sticker card below the nav
+  (`top-20`, right margin, rounded, 2px ink border + hard shadow) that slides
+  in from the right on desktop; the mobile bottom sheet is unchanged
+  (2026-10-19). Frontend gate re-verified after both fixes: Vitest
+  `13 files / 60 tests passed`, ESLint + Prettier clean, `tsc --noEmit` clean.
 
 ### Handoff
 - Read-only content flow is done: landing → catalog → Trail Map, guest and

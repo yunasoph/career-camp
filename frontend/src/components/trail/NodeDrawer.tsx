@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { useNodeDetail } from '@/api/useRoadmap';
 import type { RoadmapNode, TaskDto } from '@/api/types';
@@ -25,9 +25,27 @@ interface NodeDrawerProps {
     onClose: () => void;
 }
 
+const DESKTOP_QUERY = '(min-width: 768px)';
+
+/** Minimal matchMedia hook (framer-motion v11 does not export one). */
+function useIsDesktop(): boolean {
+    const [isDesktop, setIsDesktop] = useState<boolean>(() =>
+        typeof window !== 'undefined' ? window.matchMedia(DESKTOP_QUERY).matches : true,
+    );
+    useEffect(() => {
+        const list = window.matchMedia(DESKTOP_QUERY);
+        const onChange = (): void => setIsDesktop(list.matches);
+        list.addEventListener('change', onChange);
+        setIsDesktop(list.matches);
+        return () => list.removeEventListener('change', onChange);
+    }, []);
+    return isDesktop;
+}
+
 export function NodeDrawer({ node, nodes, variant, onClose }: NodeDrawerProps): JSX.Element {
     const { data, isError, refetch } = useNodeDetail(node.id);
     const reduced = useReducedMotion();
+    const isDesktop = useIsDesktop();
 
     // Escape closes the drawer.
     useEffect(() => {
@@ -43,15 +61,20 @@ export function NodeDrawer({ node, nodes, variant, onClose }: NodeDrawerProps): 
         .map((id) => nodes.find((n) => n.id === id))
         .filter((n): n is RoadmapNode => n !== undefined);
 
+    // Bottom sheet slides up on mobile; desktop card slides in from the right.
+    const initial = isDesktop ? { opacity: 0, x: 48 } : { opacity: 0, y: 240 };
+    const animate = isDesktop ? { opacity: 1, x: 0 } : { opacity: 1, y: 0 };
+    const exit = isDesktop ? { opacity: 0, x: 48 } : { opacity: 0, y: 240 };
+
     return (
         <motion.aside
             role="dialog"
             aria-label={`Details: ${node.title}`}
-            initial={{ opacity: 0, y: 240 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 240 }}
+            initial={initial}
+            animate={animate}
+            exit={exit}
             transition={reduced ? { duration: 0 } : { type: 'tween', duration: 0.25, ease: 'easeOut' }}
-            className="fixed inset-x-0 bottom-0 z-40 max-h-[75vh] overflow-y-auto rounded-t-3xl border-t-2 border-ink bg-card p-5 shadow-2xl md:inset-y-0 md:bottom-auto md:left-auto md:right-0 md:max-h-full md:w-96 md:rounded-none md:border-l-2 md:border-t-0"
+            className="fixed inset-x-0 bottom-0 z-40 max-h-[75vh] overflow-y-auto rounded-t-3xl border-t-2 border-ink bg-card p-5 shadow-2xl md:top-20 md:right-5 md:bottom-6 md:left-auto md:max-h-[calc(100vh-6.5rem)] md:w-[24rem] md:max-w-[calc(100vw-2.5rem)] md:rounded-card md:border-2 md:shadow-[0_4px_0_var(--ink)]"
         >
             <header className="flex items-start gap-3">
                 <PixelSprite sprite={art} scale={2} />
