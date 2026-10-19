@@ -1,6 +1,6 @@
 import '@xyflow/react/dist/style.css';
 import { useEffect, useMemo, useState } from 'react';
-import { MiniMap, ReactFlow, useReactFlow } from '@xyflow/react';
+import { MiniMap, PanOnScrollMode, ReactFlow, useReactFlow } from '@xyflow/react';
 import type { Edge, EdgeTypes, Node, NodeTypes } from '@xyflow/react';
 import type { RoadmapDetail } from '@/api/types';
 import type { SceneVariant } from '@/art/scene';
@@ -21,7 +21,8 @@ const NODE_CENTER_X = 96;
 const NODE_CENTER_Y = 95;
 /** Place the focus node in the upper third so the trail ahead is visible. */
 const FOCUS_OFFSET_Y = 150;
-const START_ZOOM = 0.9;
+/** Open at full size — the trail stays enlarged; scroll to travel it. */
+const START_ZOOM = 1;
 
 interface TrailMapProps {
     detail: RoadmapDetail;
@@ -61,10 +62,11 @@ export function TrailMap({ detail, variant, authed, onOpen }: TrailMapProps): JS
         }));
     }, [detail, authed]);
 
-    // Open on a readable trailhead zoom instead of fitting the whole graph —
-    // a 12-node trail squashes to ~0.4 at laptop sizes, which is unreadable.
-    // Guests start at the first stop; authed users start at their current
-    // node. Explore by panning/zooming, or use "Fit view" for the full map.
+    // Open at full-size zoom centred on the trail start, never squashed to
+    // fit the whole graph — a 12-node trail is taller than the viewport, so
+    // the map scrolls: wheel/trackpad pan the canvas (page-like), drag pans,
+    // pinch/ctrl+wheel zooms, "Fit view" shows the full trail, MiniMap orients.
+    // Guests start at the first stop; authed users at their current node.
     useEffect(() => {
         if (centered) return;
         const targetIds = new Set(detail.edges.map((e) => e.node_id));
@@ -95,8 +97,11 @@ export function TrailMap({ detail, variant, authed, onOpen }: TrailMapProps): JS
                 nodeTypes={nodeTypes}
                 edgeTypes={edgeTypes}
                 defaultViewport={{ x: 0, y: 0, zoom: START_ZOOM }}
-                minZoom={0.15}
+                minZoom={0.3}
                 maxZoom={1.75}
+                zoomOnScroll={false}
+                panOnScroll
+                panOnScrollMode={PanOnScrollMode.Vertical}
                 nodesFocusable
                 nodesDraggable={false}
                 nodesConnectable={false}

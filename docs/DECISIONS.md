@@ -137,3 +137,15 @@ Running log of decisions made where `spec.md` was ambiguous or silent (spec §15
   (pixel skeleton shimmer, spec §9A.4/§9A.9) is added to the
   `prefers-reduced-motion: reduce` rule alongside `.trail-ants`, so no
   decorative animation runs for reduced-motion users.
+- **Trail Map viewport: full-size, scroll-first (user feedback, 2026-10-19).**
+  The trails are taller than the viewport (12-node trail ≈ 1.7k flow px), and
+  auto fit-to-view squashed them to ~0.4 at laptop sizes — titles unreadable;
+  wheel-zoom then shrank the trail further, which read as a bug. Decision:
+  open at **zoom 1** centred on the trail start (guests) or the learner's
+  current node (authed); `zoomOnScroll={false}` + `panOnScroll` (vertical)
+  make wheel/trackpad pan the canvas like scrolling a page; pinch/ctrl+wheel
+  still zooms (`minZoom` 0.3 so the trail can't be shrunk unreadable), drag
+  pans, "Fit view" + MiniMap give the overview. Seed rows re-spaced to a
+  220px pitch (node tiles are up to ~183px tall) so same-column nodes never
+  overlap — verified with a Playwright pairwise node-rect intersection check
+  (0 overlaps on both trails).

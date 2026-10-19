@@ -35,6 +35,7 @@ vi.mock('@xyflow/react', () => ({
     MiniMap: () => null,
     ReactFlowProvider: ({ children }: { children: ReactNode }) => <>{children}</>,
     useReactFlow: () => ({ fitView: vi.fn(), setCenter: vi.fn() }),
+    PanOnScrollMode: { Free: 'free', Vertical: 'vertical', Horizontal: 'horizontal' },
     Handle: () => null,
     Position: { Top: 'Top', Bottom: 'Bottom' },
 }));

@@ -49,7 +49,7 @@
       "title": "CSVs & Spreadsheets",
       "description": "Work with the format every dataset arrives in: reading, sorting, filtering and pivoting tables.",
       "landmark": "lab",
-      "pos": [240, 150],
+      "pos": [240, 220],
       "prerequisites": ["data-fundamentals"],
       "tasks": [
         {
@@ -81,7 +81,7 @@
       "title": "SQL Basics",
       "description": "The analyst's core tool: SELECT, WHERE, ORDER BY and reading tables like a map.",
       "landmark": "garden-gate",
-      "pos": [0, 300],
+      "pos": [0, 440],
       "prerequisites": ["data-fundamentals"],
       "tasks": [
         {
@@ -138,7 +138,7 @@
       "title": "Python for Data",
       "description": "The analyst's scripting language: variables, loops, dicts and list comprehensions.",
       "landmark": "workshop",
-      "pos": [480, 150],
+      "pos": [480, 220],
       "prerequisites": ["data-fundamentals"],
       "tasks": [
         {
@@ -171,7 +171,7 @@
       "title": "Joins & Aggregations",
       "description": "Where the real power is: combining tables with JOIN and summarizing with GROUP BY.",
       "landmark": "tower",
-      "pos": [240, 450],
+      "pos": [240, 660],
       "prerequisites": ["sql-basics"],
       "tasks": [
         {
@@ -203,7 +203,7 @@
       "title": "DataFrames with Pandas",
       "description": "The workhorse of Python data work: load, filter, transform and summarize tables fast.",
       "landmark": "lab",
-      "pos": [0, 600],
+      "pos": [0, 880],
       "prerequisites": ["python-basics", "csv-spreadsheets"],
       "tasks": [
         {
@@ -260,7 +260,7 @@
       "title": "Data Cleaning",
       "description": "Where 80% of the job lives: missing values, bad types, duplicates and messy dates.",
       "landmark": "bridge",
-      "pos": [240, 750],
+      "pos": [240, 1100],
       "prerequisites": ["pandas"],
       "tasks": [
         {
@@ -291,7 +291,7 @@
       "title": "Data Visualization",
       "description": "Show your findings honestly: the right chart for the right question, with labels and context.",
       "landmark": "studio",
-      "pos": [0, 900],
+      "pos": [0, 1320],
       "prerequisites": ["pandas"],
       "tasks": [
         {
@@ -324,7 +324,7 @@
       "title": "Statistics Essentials",
       "description": "The math that keeps you honest: distributions, central tendency, spread and when a result is real.",
       "landmark": "observatory",
-      "pos": [480, 450],
+      "pos": [480, 660],
       "prerequisites": ["python-basics"],
       "tasks": [
         {
@@ -381,7 +381,7 @@
       "title": "Dashboards & Reporting",
       "description": "Package your analysis for decisions: a dashboard someone else can read in under a minute.",
       "landmark": "tower",
-      "pos": [240, 1050],
+      "pos": [240, 1540],
       "prerequisites": ["data-cleaning", "visualization", "sql-joins-aggregates"],
       "tasks": [
         {

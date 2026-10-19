@@ -125,9 +125,9 @@ All four are documented in `docs/DECISIONS.md`.
   reduced-motion rule (spec §9A.9).
 - Trail Map opened at fit-all zoom — a 12-node trail squashes to ~0.4 at
   laptop sizes, so node titles were unreadable. Replaced the auto
-  fit-to-view with a trailhead start: the map now opens at 0.9 zoom centred
-  on the first stop (guests) or the learner's current node (authed); pan/zoom
-  to explore, "Fit view" for the full map, MiniMap for orientation. Node
+  fit-to-view with a trailhead start: the map now opens at full-size zoom
+  centred on the first stop (guests) or the learner's current node (authed);
+  scroll/pan to explore, "Fit view" for the full map, MiniMap for orientation. Node
   tiles grew `w-40` → `w-48` with `text-base` titles; the MiniMap got the
   sticker border, rounded corners and a fixed 144×100 size (2026-10-19).
 - The node drawer was anchored at `top: 0`, hiding the node title behind the
@@ -136,6 +136,21 @@ All four are documented in `docs/DECISIONS.md`.
   in from the right on desktop; the mobile bottom sheet is unchanged
   (2026-10-19). Frontend gate re-verified after both fixes: Vitest
   `13 files / 60 tests passed`, ESLint + Prettier clean, `tsc --noEmit` clean.
+- Trail nodes overlapped: seed rows were 150px apart but node tiles (w-48,
+  up to ~183px tall with two-line titles) are taller than that, so
+  same-column neighbours touched/overlapped. Re-spaced both seeds to 220px
+  row pitch (columns keep x = 0/240/480) and re-seeded the dev DB
+  (`DELETE FROM nodes` — all children cascade, no user progress yet — then
+  `npm run seed`: 22 nodes / 26 prereqs / 79 tasks, same counts as the gate).
+  Verified with a Playwright pairwise node-rect intersection check: 0
+  overlaps on both trails (2026-10-19).
+- Trail Map interaction: the map now opens at **zoom 1** (full-size nodes,
+  never squashed to fit) and the trail travels by **scrolling** —
+  `zoomOnScroll={false}` + `panOnScroll` + `panOnScrollMode={Vertical}` so
+  wheel/trackpad pan like a page (verified: wheel pans at constant zoom
+  1.0); pinch/ctrl+wheel still zooms, drag pans, `minZoom` raised to 0.3 so
+  the trail can't be zoomed unreadable, "Fit view" shows the full trail
+  (2026-10-19).
 
 ### Handoff
 - Read-only content flow is done: landing → catalog → Trail Map, guest and

@@ -81,7 +81,7 @@
       "title": "HTML Foundations",
       "description": "Structure pages with semantic elements: headings, lists, images, links and forms.",
       "landmark": "library",
-      "pos": [240, 150],
+      "pos": [240, 220],
       "prerequisites": ["internet-basics"],
       "tasks": [
         {
@@ -153,7 +153,7 @@
       "title": "Git & Version Control",
       "description": "Track your work: repositories, commits, branches and your first merge.",
       "landmark": "workshop",
-      "pos": [480, 150],
+      "pos": [480, 220],
       "prerequisites": ["internet-basics"],
       "tasks": [
         {
@@ -218,7 +218,7 @@
       "title": "CSS & Layout",
       "description": "Style everything: the box model, typography, Flexbox and the cascade.",
       "landmark": "studio",
-      "pos": [0, 300],
+      "pos": [0, 440],
       "prerequisites": ["html"],
       "tasks": [
         {
@@ -290,7 +290,7 @@
       "title": "JavaScript Essentials",
       "description": "The language of the web: variables, functions, arrays, objects and promises.",
       "landmark": "workshop",
-      "pos": [240, 300],
+      "pos": [240, 440],
       "prerequisites": ["html"],
       "tasks": [
         {
@@ -376,7 +376,7 @@
       "title": "DOM & Events",
       "description": "Make pages interactive: select elements, change them, and react to user events.",
       "landmark": "lab",
-      "pos": [0, 450],
+      "pos": [0, 660],
       "prerequisites": ["javascript"],
       "tasks": [
         {
@@ -440,7 +440,7 @@
       "title": "Responsive Design & Accessibility",
       "description": "Design for every screen: mobile-first CSS, and make your pages work for everyone.",
       "landmark": "studio",
-      "pos": [240, 600],
+      "pos": [240, 880],
       "prerequisites": ["css", "javascript"],
       "tasks": [
         {
@@ -480,7 +480,7 @@
       "title": "React Fundamentals",
       "description": "Component-driven UIs: props, state, events and thinking in components.",
       "landmark": "tower",
-      "pos": [480, 600],
+      "pos": [480, 880],
       "prerequisites": ["javascript", "git"],
       "tasks": [
         {
@@ -559,7 +559,7 @@
       "title": "TypeScript",
       "description": "Add static types to JavaScript: interfaces, generics and catching bugs before runtime.",
       "landmark": "lab",
-      "pos": [240, 750],
+      "pos": [240, 1100],
       "prerequisites": ["react"],
       "tasks": [
         {
@@ -591,7 +591,7 @@
       "title": "Testing JavaScript",
       "description": "Write tests that catch regressions: unit tests with Jest and component tests with React Testing Library.",
       "landmark": "lab",
-      "pos": [480, 750],
+      "pos": [480, 1100],
       "prerequisites": ["react"],
       "tasks": [
         {
@@ -623,7 +623,7 @@
       "title": "Build Tools & Bundlers",
       "description": "How modern apps are built: dev servers, HMR, env vars and production bundles with Vite.",
       "landmark": "workshop",
-      "pos": [240, 900],
+      "pos": [240, 1320],
       "prerequisites": ["typescript", "testing"],
       "tasks": [
         {
@@ -655,7 +655,7 @@
       "title": "Deployment & DevOps Basics",
       "description": "Ship it: static hosting, environment-specific builds, and what happens after you press deploy.",
       "landmark": "bridge",
-      "pos": [0, 1050],
+      "pos": [0, 1540],
       "prerequisites": ["build-tools"],
       "tasks": [
         {
