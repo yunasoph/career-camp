@@ -145,12 +145,14 @@ All four are documented in `docs/DECISIONS.md`.
   Verified with a Playwright pairwise node-rect intersection check: 0
   overlaps on both trails (2026-10-19).
 - Trail Map interaction: the map now opens at **zoom 1** (full-size nodes,
-  never squashed to fit) and the trail travels by **scrolling** —
-  `zoomOnScroll={false}` + `panOnScroll` + `panOnScrollMode={Vertical}` so
-  wheel/trackpad pan like a page (verified: wheel pans at constant zoom
-  1.0); pinch/ctrl+wheel still zooms, drag pans, `minZoom` raised to 0.3 so
-  the trail can't be zoomed unreadable, "Fit view" shows the full trail
-  (2026-10-19).
+  never squashed to fit), horizontally centred on the trail's bounding box
+  (verified: equal 223px left/right margins at 1280) and vertically on the
+  trail start, and the trail travels by **scrolling** —
+  `zoomOnScroll={false}` + `panOnScroll` + `panOnScrollMode={Free}` so
+  wheel/trackpad pan like a page on both axes (verified: wheel pans at
+  constant zoom 1.0, vertical and horizontal); pinch/ctrl+wheel still zooms,
+  drag pans, `minZoom` raised to 0.3 so the trail can't be zoomed unreadable,
+  "Fit view" shows the full trail (2026-10-19).
 
 ### Handoff
 - Read-only content flow is done: landing → catalog → Trail Map, guest and

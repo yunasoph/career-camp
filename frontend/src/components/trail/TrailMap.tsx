@@ -62,11 +62,13 @@ export function TrailMap({ detail, variant, authed, onOpen }: TrailMapProps): JS
         }));
     }, [detail, authed]);
 
-    // Open at full-size zoom centred on the trail start, never squashed to
-    // fit the whole graph — a 12-node trail is taller than the viewport, so
-    // the map scrolls: wheel/trackpad pan the canvas (page-like), drag pans,
-    // pinch/ctrl+wheel zooms, "Fit view" shows the full trail, MiniMap orients.
-    // Guests start at the first stop; authed users at their current node.
+    // Open at full-size zoom, horizontally centred on the whole trail (so
+    // the path sits in the middle of the canvas, not hugging one side) and
+    // vertically on the trail start — the trail is taller than the viewport,
+    // so it travels by scrolling: wheel/trackpad pan the canvas both ways
+    // (page-like), drag pans, pinch/ctrl+wheel zooms, "Fit view" shows the
+    // full trail, MiniMap orients. Guests start at the first stop; authed
+    // users at their current node.
     useEffect(() => {
         if (centered) return;
         const targetIds = new Set(detail.edges.map((e) => e.node_id));
@@ -81,7 +83,9 @@ export function TrailMap({ detail, variant, authed, onOpen }: TrailMapProps): JS
             : undefined;
         const focus = current ?? head;
         if (focus) {
-            setCenter(focus.pos_x + NODE_CENTER_X, focus.pos_y + NODE_CENTER_Y + FOCUS_OFFSET_Y, {
+            const xs = detail.nodes.map((n) => n.pos_x);
+            const midX = (Math.min(...xs) + Math.max(...xs)) / 2 + NODE_CENTER_X;
+            setCenter(midX, focus.pos_y + NODE_CENTER_Y + FOCUS_OFFSET_Y, {
                 zoom: START_ZOOM,
                 duration: 0,
             });
@@ -101,7 +105,7 @@ export function TrailMap({ detail, variant, authed, onOpen }: TrailMapProps): JS
                 maxZoom={1.75}
                 zoomOnScroll={false}
                 panOnScroll
-                panOnScrollMode={PanOnScrollMode.Vertical}
+                panOnScrollMode={PanOnScrollMode.Free}
                 nodesFocusable
                 nodesDraggable={false}
                 nodesConnectable={false}
